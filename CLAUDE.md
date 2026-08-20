@@ -83,10 +83,24 @@ wird resettet). Also:
 ## Vor jedem Commit
 
     ./bin/php-lint.sh
+    ./bin/test.sh
 
 Commits klein und thematisch halten. Ein Deploy = ein Push; wenn eine
 Änderung riskant ist, vorher sagen, wie der Rollback aussieht
 (`docs/plesk-deploy.md`, Abschnitt Rollback).
+
+## Textkorrekturen im Frontend
+
+`includes/content-cleanup.php` entfernt einzelne Begriffe bei der Ausgabe
+(`the_content`, `widget_text`), weil die Inhalte in der Pagelayer-Datenbank
+liegen und nicht im Repo. Das ist eine Notlösung mit Ansage:
+
+* Sie wirkt nur im Frontend — im wp-admin steht der Text weiterhin da.
+* Sobald der Text in Pagelayer korrigiert ist, gehört der Eintrag hier
+  wieder heraus, sonst bleibt eine Regel stehen, die niemand versteht.
+* Jede Änderung an der Liste braucht einen Testfall in
+  `tests/content-cleanup.php`, inklusive Gegenprobe, dass nicht zu viel
+  entfernt wird.
 
 ## Offene Punkte
 

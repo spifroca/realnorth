@@ -160,7 +160,7 @@ muss es nicht. `.htaccess` hilft hier nicht — der Server läuft nginx ohne
 Apache. Stattdessen in Plesk unter **Apache & nginx Settings** ->
 **Additional nginx directives**:
 
-    location ~* /wp-content/plugins/realnorth-custom/(docs|bin)/ { deny all; }
+    location ~* /wp-content/plugins/realnorth-custom/(docs|bin|tests)/ { deny all; }
 
 ## Täglicher Ablauf
 

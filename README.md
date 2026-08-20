@@ -23,10 +23,13 @@ Nicht im Repo: WordPress-Core, das PopularFX-Theme, Fremd-Plugins,
 
 ## Aufbau
 
-    realnorth-custom.php     Plugin-Header, lädt das Stylesheet (Priorität 20)
-    assets/css/site.css      projektspezifisches CSS
-    bin/php-lint.sh          Syntax-Check, Pflicht vor dem Push
-    docs/                    Doku (siehe oben)
+    realnorth-custom.php         Plugin-Header, lädt das Stylesheet (Priorität 20)
+    includes/content-cleanup.php Textkorrekturen im Frontend (Notlösung, siehe CLAUDE.md)
+    assets/css/site.css          projektspezifisches CSS
+    bin/php-lint.sh              Syntax-Check, Pflicht vor dem Push
+    bin/test.sh                  Tests, Pflicht vor dem Push
+    tests/                       Regressionstests, laufen ohne WordPress
+    docs/                        Doku (siehe oben)
 
 ## Deployment in einem Satz
 
