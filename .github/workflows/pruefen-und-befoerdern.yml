@@ -1,0 +1,74 @@
+# Prüft jeden Push von Claude und befördert ihn erst dann nach main.
+#
+# Hintergrund: Plesk zieht automatisch von main, sobald der Webhook steht.
+# Damit ist main die Live-Seite. Deshalb darf dort nur landen, was Lint und
+# Tests überlebt hat - ein PHP-Syntaxfehler bedeutet weisser Screen, und auf
+# dem Server gibt es ohne Shell kein php -l zum Nachsehen.
+#
+# Der Schalter ist die Repository-Variable AUTO_PROMOTE:
+#   'true'  -> gruener Lauf schiebt den Stand nach main (und damit live)
+#   fehlt   -> nur pruefen, main bleibt unberuehrt
+# Zu setzen unter Settings -> Secrets and variables -> Actions -> Variables.
+# Damit laesst sich die Automatik ohne Codeaenderung ein- und ausschalten.
+
+name: Prüfen und nach main befördern
+
+on:
+  push:
+    branches:
+      - 'claude/**'
+
+# Nötig für den Push nach main. Zusätzlich muss unter
+# Settings -> Actions -> General -> Workflow permissions
+# «Read and write permissions» aktiv sein.
+permissions:
+  contents: write
+
+# Zwei Läufe gleichzeitig auf denselben Branch würden sich beim Push
+# nach main gegenseitig überholen.
+concurrency:
+  group: befoerdern-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  pruefen:
+    name: Lint und Tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: PHP sicherstellen
+        run: |
+          if ! command -v php >/dev/null 2>&1; then
+            sudo apt-get update -qq
+            sudo apt-get install -y -qq php-cli
+          fi
+          php -v
+
+      - name: Syntax-Check
+        run: ./bin/php-lint.sh
+
+      - name: Tests
+        run: ./bin/test.sh
+
+  befoerdern:
+    name: main aktualisieren
+    needs: pruefen
+    if: vars.AUTO_PROMOTE == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Fast-Forward auf main
+        run: |
+          # Kein --force: wenn main inzwischen eigene Commits hat, soll der
+          # Push scheitern statt fremde Arbeit zu ueberschreiben. Dann muss
+          # der Branch erst auf main rebased werden.
+          git push origin HEAD:main
+
+      - name: Ergebnis
+        run: |
+          echo "main steht jetzt auf $(git rev-parse --short HEAD)."
+          echo "Plesk zieht diesen Stand, sobald Auto-Deploy aktiv ist."

@@ -34,6 +34,17 @@ Daraus die wichtigste Arbeitsteilung:
 Push nach GitHub -> **Plesk zieht** (Git-Integration, Auto-Deploy per
 Webhook). Einrichtung und Rollback: `docs/plesk-deploy.md`.
 
+Der Weg dorthin ist automatisiert: ein Push auf `claude/**` startet GitHub
+Actions (Lint + Tests). Ist der Lauf grün und die Repository-Variable
+`AUTO_PROMOTE` auf `true`, schiebt der Workflow den Stand nach `main`, und
+Plesk zieht ihn. Rot heisst: `main` bleibt stehen, nichts geht live.
+Details und Notausschalter: `docs/automatischer-deploy.md`.
+
+Konsequenz für die Arbeitsweise: **jeder Push kann live gehen.** Also
+kleine Commits, Lint und Tests vorher lokal laufen lassen, und bei jeder
+Änderung an der Ausgabe einen Testfall dazu — die Tests sind ab jetzt das
+Einzige, was zwischen einem Fehler und der Live-Seite steht.
+
 Drei harte Regeln:
 
 1. **Kein Build auf dem Server.** Kein Shell-Zugriff, also keine

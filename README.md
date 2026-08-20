@@ -17,6 +17,7 @@ Nicht im Repo: WordPress-Core, das PopularFX-Theme, Fremd-Plugins,
 |---|---|
 | [`docs/ist-zustand.md`](docs/ist-zustand.md) | Stack, Pfade, Theme, Plugins, offene Risiken — und warum unser Code ein Plugin ist und kein Child-Theme. |
 | [`docs/plesk-deploy.md`](docs/plesk-deploy.md) | Deployment GitHub -> Plesk: Feldwerte für den Plesk-Dialog, Webhook, Rollback. |
+| [`docs/automatischer-deploy.md`](docs/automatischer-deploy.md) | Die automatische Kette Push -> Prüfung -> `main` -> live, die drei Schalter dafür und die Notausschalter. |
 | [`docs/ist-zustand-erfassen.md`](docs/ist-zustand-erfassen.md) | Wie man den Ist-Zustand neu erhebt. |
 | [`docs/cloud-environment.md`](docs/cloud-environment.md) | Cloud-Umgebung für Claude-Code-Sessions inkl. gemessener Netzwerk-Grenzen. |
 | [`CLAUDE.md`](CLAUDE.md) | Arbeitsregeln und WordPress-Konventionen. |
