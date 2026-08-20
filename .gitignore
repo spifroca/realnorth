@@ -1,0 +1,26 @@
+# --- WordPress: alles, was der Server besitzt und nicht das Repo ---
+wp-config.php
+wp-content/uploads/
+wp-content/cache/
+wp-content/upgrade/
+wp-content/backup*/
+*.sql
+*.sql.gz
+
+# --- lokale Build-/Tooling-Artefakte ---
+node_modules/
+vendor/
+.sass-cache/
+*.log
+
+# ACHTUNG: Build-Output (z. B. build/, dist/, kompiliertes CSS) wird NICHT
+# ignoriert. Der Plesk-Host hat keinen Shell-Zugriff, es laeuft dort also
+# weder npm noch composer. Was auf der Seite landen soll, muss eingecheckt
+# sein. Siehe docs/plesk-deploy.md.
+
+# --- OS / Editor ---
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
