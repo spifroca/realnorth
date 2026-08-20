@@ -1,0 +1,164 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+  <style>
+    body { margin: 0; font-family: "IBM Plex Sans", system-ui, sans-serif; }
+    a { color: oklch(0.80 0.13 205); text-decoration: none; }
+    a:hover { color: oklch(0.90 0.09 205); }
+    .k-ph { background: linear-gradient(145deg, oklch(0.30 0.03 255), oklch(0.24 0.02 255)); }
+  </style>
+</helmet>
+
+<div style="width: 1440px; background: oklch(0.185 0.02 255); color: oklch(0.96 0.004 255)">
+
+  <div style="display: flex; align-items: center; justify-content: space-between; padding: 20px 56px; border-bottom: 1px solid oklch(0.28 0.02 255); position: sticky; top: 0; background: oklch(0.185 0.02 255)">
+    <div style="display: flex; align-items: center; gap: 40px">
+      <div style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 20px; letter-spacing: -0.01em">realnorth</div>
+      <div style="display: flex; gap: 28px; font-size: 15px">
+        <a href="#" style="color: oklch(0.96 0.004 255)">Wohnungen</a>
+        <a href="#" style="color: oklch(0.72 0.01 255)">Bauprojekte</a>
+        <a href="#" style="color: oklch(0.72 0.01 255)">Bewirtschaftung</a>
+        <a href="#" style="color: oklch(0.72 0.01 255)">Eigentümer</a>
+      </div>
+    </div>
+    <a href="#" style="background: oklch(0.80 0.13 205); color: oklch(0.19 0.03 255); padding: 11px 20px; border-radius: 8px; font-weight: 600; font-size: 15px">Objekt anbieten</a>
+  </div>
+
+  <div style="padding: 72px 56px 48px 56px; display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 24px; align-items: end">
+    <div style="grid-column: span 7; display: flex; flex-direction: column; gap: 22px">
+      <div style="display: flex; align-items: center; gap: 10px; font-size: 14px; color: oklch(0.80 0.13 205)">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="6"></circle><path d="M8 5v3l2 2"></path></svg>
+        <span>Bestand aktualisiert vor 12 Minuten</span>
+      </div>
+      <h1 style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 68px; line-height: 1.02; letter-spacing: -0.025em; margin: 0">Freie Wohnungen in [Region] — live aus unserer Bewirtschaftung.</h1>
+      <p style="margin: 0; font-size: 19px; line-height: 1.55; color: oklch(0.76 0.01 255); max-width: 52ch">Kein Portal-Umweg, keine veralteten Inserate. Was hier steht, ist heute verfügbar.</p>
+    </div>
+    <div style="grid-column: span 5; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px">
+      <div style="background: oklch(0.235 0.02 255); border: 1px solid oklch(0.30 0.02 255); border-radius: 12px; padding: 20px">
+        <div style="font-family: 'Space Grotesk', sans-serif; font-size: 38px; font-weight: 700">[24]</div>
+        <div style="font-size: 14px; color: oklch(0.74 0.01 255)">freie Wohnungen</div>
+      </div>
+      <div style="background: oklch(0.235 0.02 255); border: 1px solid oklch(0.30 0.02 255); border-radius: 12px; padding: 20px">
+        <div style="font-family: 'Space Grotesk', sans-serif; font-size: 38px; font-weight: 700">[6]</div>
+        <div style="font-size: 14px; color: oklch(0.74 0.01 255)">Projekte im Bau</div>
+      </div>
+      <div style="background: oklch(0.235 0.02 255); border: 1px solid oklch(0.30 0.02 255); border-radius: 12px; padding: 20px">
+        <div style="font-family: 'Space Grotesk', sans-serif; font-size: 38px; font-weight: 700">[1'240]</div>
+        <div style="font-size: 14px; color: oklch(0.74 0.01 255)">bewirtschaftete Einheiten</div>
+      </div>
+      <div style="background: oklch(0.235 0.02 255); border: 1px solid oklch(0.30 0.02 255); border-radius: 12px; padding: 20px">
+        <div style="font-family: 'Space Grotesk', sans-serif; font-size: 38px; font-weight: 700">[1.4%]</div>
+        <div style="font-size: 14px; color: oklch(0.74 0.01 255)">Leerstand</div>
+      </div>
+    </div>
+  </div>
+
+  <div style="margin: 0 56px; background: oklch(0.235 0.02 255); border: 1px solid oklch(0.31 0.02 255); border-radius: 16px; padding: 20px; display: flex; gap: 12px; align-items: center">
+    <div style="display: flex; align-items: center; gap: 10px; flex-grow: 1; background: oklch(0.19 0.02 255); border-radius: 10px; padding: 14px 16px">
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="oklch(0.70 0.01 255)" stroke-width="1.6"><circle cx="8" cy="8" r="5.5"></circle><path d="M12 12l3.5 3.5"></path></svg>
+      <span style="color: oklch(0.66 0.01 255); font-size: 16px">Ort, PLZ oder Objektname</span>
+    </div>
+    <div style="display: flex; gap: 8px">
+      <div style="border: 1px solid oklch(0.34 0.02 255); border-radius: 10px; padding: 14px 18px; font-size: 15px; color: oklch(0.86 0.01 255)">Zimmer: alle</div>
+      <div style="border: 1px solid oklch(0.34 0.02 255); border-radius: 10px; padding: 14px 18px; font-size: 15px; color: oklch(0.86 0.01 255)">Miete bis</div>
+      <div style="border: 1px solid oklch(0.34 0.02 255); border-radius: 10px; padding: 14px 18px; font-size: 15px; color: oklch(0.86 0.01 255)">Ab sofort</div>
+    </div>
+    <div style="background: oklch(0.80 0.13 205); color: oklch(0.19 0.03 255); border-radius: 10px; padding: 14px 26px; font-weight: 600; font-size: 16px">Suchen</div>
+  </div>
+
+  <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; padding: 32px 56px 72px 56px">
+    <sc-for list="{{units}}" as="unit" hint-placeholder-count="3">
+      <div style="background: oklch(0.225 0.02 255); border: 1px solid oklch(0.30 0.02 255); border-radius: 16px; overflow: hidden; display: flex; flex-direction: column">
+        <div class="k-ph" style="height: 200px; position: relative; display: flex; align-items: flex-start; justify-content: space-between; padding: 14px">
+          <div style="background: {{unit.pillBg}}; color: oklch(0.19 0.03 255); font-size: 12px; font-weight: 600; padding: 5px 10px; border-radius: 999px">{{unit.status}}</div>
+          <div style="font-size: 12px; color: oklch(0.70 0.01 255)">Bild</div>
+        </div>
+        <div style="padding: 18px; display: flex; flex-direction: column; gap: 12px">
+          <div style="font-family: 'Space Grotesk', sans-serif; font-size: 21px; font-weight: 500">{{unit.zimmer}} Zimmer · {{unit.ort}}</div>
+          <div style="display: flex; gap: 16px; font-size: 14px; color: oklch(0.74 0.01 255)">
+            <span>{{unit.flaeche}}</span><span>·</span><span>ab {{unit.frei}}</span>
+          </div>
+          <div style="display: flex; align-items: baseline; justify-content: space-between; padding-top: 6px; border-top: 1px solid oklch(0.30 0.02 255)">
+            <div style="font-family: 'Space Grotesk', sans-serif; font-size: 22px; font-weight: 700">{{unit.miete}}</div>
+            <a href="#" style="font-size: 14px">Besichtigung →</a>
+          </div>
+        </div>
+      </div>
+    </sc-for>
+  </div>
+
+  <div style="padding: 0 56px 80px 56px">
+    <div style="display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 24px">
+      <h2 style="font-family: 'Space Grotesk', sans-serif; font-size: 34px; font-weight: 700; letter-spacing: -0.02em; margin: 0">Bauprojekte im Fortschritt</h2>
+      <a href="#" style="font-size: 15px">Alle Projekte</a>
+    </div>
+    <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px">
+      <sc-for list="{{projects}}" as="p" hint-placeholder-count="3">
+        <div style="background: oklch(0.225 0.02 255); border: 1px solid oklch(0.30 0.02 255); border-radius: 16px; padding: 22px; display: flex; flex-direction: column; gap: 16px">
+          <div style="display: flex; justify-content: space-between; align-items: baseline">
+            <div style="font-family: 'Space Grotesk', sans-serif; font-size: 20px; font-weight: 500">{{p.name}}</div>
+            <div style="font-size: 13px; color: oklch(0.74 0.01 255)">{{p.phase}}</div>
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 8px">
+            <div style="height: 6px; background: oklch(0.30 0.02 255); border-radius: 999px; overflow: hidden">
+              <div style="height: 6px; width: {{p.pct}}; background: oklch(0.80 0.13 205)"></div>
+            </div>
+            <div style="display: flex; justify-content: space-between; font-size: 13px; color: oklch(0.72 0.01 255)">
+              <span>Baufortschritt {{p.pct}}</span><span>Bezug {{p.bezug}}</span>
+            </div>
+          </div>
+          <div style="font-size: 14px; color: oklch(0.74 0.01 255); line-height: 1.5">{{p.units}} Wohnungen · {{p.ort}}</div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+
+  <div style="background: oklch(0.235 0.02 255); border-top: 1px solid oklch(0.30 0.02 255); padding: 72px 56px; display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 24px">
+    <div style="grid-column: span 5">
+      <h2 style="font-family: 'Space Grotesk', sans-serif; font-size: 34px; font-weight: 700; letter-spacing: -0.02em; margin: 0 0 14px 0">Ihre Liegenschaft in unserer Bewirtschaftung</h2>
+      <p style="margin: 0; font-size: 17px; line-height: 1.6; color: oklch(0.76 0.01 255)">[Ein Satz zum Angebot für Eigentümer — was sie abgeben und was sie dafür bekommen.]</p>
+    </div>
+    <div style="grid-column: span 7; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px">
+      <div style="background: oklch(0.20 0.02 255); border-radius: 12px; padding: 20px; font-size: 16px">Erstvermietung &amp; Nachvermietung</div>
+      <div style="background: oklch(0.20 0.02 255); border-radius: 12px; padding: 20px; font-size: 16px">Mietzinsinkasso &amp; Abrechnung</div>
+      <div style="background: oklch(0.20 0.02 255); border-radius: 12px; padding: 20px; font-size: 16px">Technischer Unterhalt</div>
+      <div style="background: oklch(0.20 0.02 255); border-radius: 12px; padding: 20px; font-size: 16px">Eigentümer-Reporting</div>
+    </div>
+  </div>
+
+  <div style="display: flex; justify-content: space-between; padding: 40px 56px; font-size: 14px; color: oklch(0.66 0.01 255)">
+    <div>realnorth · [Strasse], [PLZ Ort]</div>
+    <div style="display: flex; gap: 24px"><a href="#">[Telefon]</a><a href="#">[E-Mail]</a><a href="#">Schadenmeldung</a></div>
+  </div>
+
+</div>
+</x-dc>
+<script data-dc-script>
+class Component extends DCLogic {
+  renderVals() {
+    const ice = 'oklch(0.80 0.13 205)';
+    const warm = 'oklch(0.84 0.13 85)';
+    return {
+      units: [
+        { zimmer: '3.5', ort: 'Baar', flaeche: '92 m²', frei: '01.11.', miete: "CHF 2'180", status: 'Neu', pillBg: ice },
+        { zimmer: '2.5', ort: 'Cham', flaeche: '68 m²', frei: 'sofort', miete: "CHF 1'740", status: 'Sofort frei', pillBg: ice },
+        { zimmer: '4.5', ort: 'Zug', flaeche: '128 m²', frei: '01.01.', miete: "CHF 3'450", status: 'Reserviert', pillBg: warm }
+      ],
+      projects: [
+        { name: '[Projekt A]', ort: '[Ort]', phase: 'Rohbau', pct: '62%', bezug: '[Q2/26]', units: '[18]' },
+        { name: '[Projekt B]', ort: '[Ort]', phase: 'Ausbau', pct: '84%', bezug: '[Q4/25]', units: '[9]' },
+        { name: '[Projekt C]', ort: '[Ort]', phase: 'Baueingabe', pct: '15%', bezug: '[2027]', units: '[26]' }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,164 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+  <style>
+    body { margin: 0; font-family: "IBM Plex Sans", system-ui, sans-serif; }
+    a { color: #215d7e; text-decoration: none; }
+    a:hover { color: #16405a; }
+    .w-chip { cursor: pointer; user-select: none; }
+  </style>
+</helmet>
+
+<div style="width: 1280px; background: oklch(0.985 0.003 250); color: oklch(0.26 0.012 260); padding: 40px 48px 56px 48px">
+
+  <div style="display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 8px">
+    <h1 style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 40px; letter-spacing: -0.025em; margin: 0">Freie Wohnungen</h1>
+    <div style="font-size: 15px; color: oklch(0.50 0.01 260)">Beispieldaten · im Betrieb aus dem Feed der Bewirtschaftung</div>
+  </div>
+  <p style="margin: 0 0 28px 0; font-size: 17px; color: oklch(0.45 0.012 260)">Filter greifen sofort, ohne Seitenneuladen — so soll sich die Suche später auf der Seite anfühlen.</p>
+
+  <div style="background: white; border: 1px solid oklch(0.90 0.008 260); border-radius: 14px; padding: 20px 22px; display: flex; flex-direction: column; gap: 18px">
+    <div style="display: flex; align-items: center; gap: 14px">
+      <div style="font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase; color: oklch(0.55 0.01 260); width: 92px">Zimmer</div>
+      <div style="display: flex; gap: 8px">
+        <sc-for list="{{zimmerChips}}" as="c" hint-placeholder-count="5">
+          <div class="w-chip" onClick="{{c.pick}}" style="{{c.style}}">{{c.label}}</div>
+        </sc-for>
+      </div>
+    </div>
+    <div style="display: flex; align-items: center; gap: 14px">
+      <div style="font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase; color: oklch(0.55 0.01 260); width: 92px">Ort</div>
+      <div style="display: flex; gap: 8px">
+        <sc-for list="{{ortChips}}" as="c" hint-placeholder-count="5">
+          <div class="w-chip" onClick="{{c.pick}}" style="{{c.style}}">{{c.label}}</div>
+        </sc-for>
+      </div>
+    </div>
+    <div style="display: flex; align-items: center; gap: 14px">
+      <div style="font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase; color: oklch(0.55 0.01 260); width: 92px">Miete bis</div>
+      <div style="display: flex; gap: 8px; flex-grow: 1">
+        <sc-for list="{{mieteChips}}" as="c" hint-placeholder-count="4">
+          <div class="w-chip" onClick="{{c.pick}}" style="{{c.style}}">{{c.label}}</div>
+        </sc-for>
+      </div>
+      <div class="w-chip" onClick="{{toggleSofort}}" style="{{sofortStyle}}">
+        <svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3.5 8.5l3 3 6-6.5"></path></svg>
+        <span>Sofort verfügbar</span>
+      </div>
+    </div>
+  </div>
+
+  <div style="display: flex; align-items: baseline; justify-content: space-between; margin: 26px 0 14px 0">
+    <div style="font-size: 16px; color: oklch(0.42 0.012 260)"><strong style="font-family: 'Space Grotesk', sans-serif; font-size: 20px">{{count}}</strong> von {{total}} Wohnungen</div>
+    <div class="w-chip" onClick="{{reset}}" style="font-size: 14px; color: #215d7e; border-bottom: 1px solid currentColor">Filter zurücksetzen</div>
+  </div>
+
+  <sc-if value="{{isEmpty}}" hint-placeholder-val="{{false}}">
+    <div style="border: 1px dashed oklch(0.84 0.01 260); border-radius: 14px; padding: 48px; text-align: center; color: oklch(0.50 0.01 260); font-size: 17px">
+      Keine Wohnung passt zu dieser Auswahl. <span style="color: #215d7e">Suchabo einrichten</span> — dann melden wir uns, sobald etwas frei wird.
+    </div>
+  </sc-if>
+
+  <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px">
+    <sc-for list="{{results}}" as="u" hint-placeholder-count="6">
+      <div style="background: white; border: 1px solid oklch(0.90 0.008 260); border-radius: 14px; overflow: hidden; display: flex; flex-direction: column">
+        <div style="height: 168px; background: linear-gradient(150deg, oklch(0.92 0.012 250), oklch(0.86 0.012 262)); display: flex; align-items: flex-start; justify-content: space-between; padding: 12px">
+          <div style="{{u.pillStyle}}">{{u.status}}</div>
+        </div>
+        <div style="padding: 16px 18px 18px 18px; display: flex; flex-direction: column; gap: 10px">
+          <div style="font-family: 'Space Grotesk', sans-serif; font-weight: 500; font-size: 20px">{{u.zimmer}} Zimmer · {{u.ort}}</div>
+          <div style="font-size: 14px; color: oklch(0.50 0.012 260)">{{u.flaeche}} · {{u.etage}} · frei ab {{u.frei}}</div>
+          <div style="display: flex; align-items: baseline; justify-content: space-between; padding-top: 10px; border-top: 1px solid oklch(0.93 0.006 260)">
+            <div style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 20px">{{u.mieteLabel}}</div>
+            <a href="#" style="font-size: 14px; font-weight: 500">Dossier ansehen</a>
+          </div>
+        </div>
+      </div>
+    </sc-for>
+  </div>
+
+</div>
+</x-dc>
+<script data-dc-script data-props='{"accent":{"editor":"color","default":"#215d7e","options":["#215d7e","#0f766e","#8a5a2b","#3b3f5c"],"section":"Farbe"}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { zimmer: 'alle', ort: 'alle', maxMiete: 0, sofort: false };
+  }
+
+  chipStyle(active, accent) {
+    return active
+      ? 'padding: 9px 15px; border-radius: 999px; font-size: 15px; font-weight: 500; background: ' + accent + '; color: white; border: 1px solid ' + accent
+      : 'padding: 9px 15px; border-radius: 999px; font-size: 15px; background: oklch(0.97 0.004 260); color: oklch(0.35 0.012 260); border: 1px solid oklch(0.90 0.008 260)';
+  }
+
+  renderVals() {
+    const accent = this.props.accent ?? '#215d7e';
+    const st = this.state;
+
+    const units = [
+      { zimmer: '3.5', ort: 'Baar', flaeche: '92 m²', etage: '2. OG', frei: '01.11.', miete: 2180, status: 'Neu' },
+      { zimmer: '2.5', ort: 'Cham', flaeche: '68 m²', etage: 'EG', frei: 'sofort', miete: 1740, status: 'Sofort frei' },
+      { zimmer: '4.5', ort: 'Zug', flaeche: '128 m²', etage: 'Attika', frei: '01.01.', miete: 3450, status: 'Neu' },
+      { zimmer: '1.5', ort: 'Rotkreuz', flaeche: '44 m²', etage: '3. OG', frei: 'sofort', miete: 1290, status: 'Sofort frei' },
+      { zimmer: '3.5', ort: 'Zug', flaeche: '86 m²', etage: '1. OG', frei: '01.12.', miete: 2790, status: 'Neu' },
+      { zimmer: '4.5', ort: 'Baar', flaeche: '112 m²', etage: '2. OG', frei: 'sofort', miete: 2950, status: 'Sofort frei' },
+      { zimmer: '2.5', ort: 'Rotkreuz', flaeche: '61 m²', etage: 'EG', frei: '01.02.', miete: 1620, status: 'Neu' }
+    ];
+
+    const matchesZimmer = (u) => st.zimmer === 'alle'
+      || (st.zimmer === '4.5+' ? parseFloat(u.zimmer) >= 4.5 : u.zimmer === st.zimmer);
+    const results = units.filter((u) =>
+      matchesZimmer(u)
+      && (st.ort === 'alle' || u.ort === st.ort)
+      && (st.maxMiete === 0 || u.miete <= st.maxMiete)
+      && (!st.sofort || u.frei === 'sofort')
+    );
+
+    const fmt = (n) => "CHF " + String(n).replace(/\B(?=(\d{3})+(?!\d))/g, "'");
+    const pill = (status) => status === 'Sofort frei'
+      ? 'background: ' + accent + '; color: white; font-size: 12px; font-weight: 600; padding: 5px 10px; border-radius: 999px'
+      : 'background: white; color: oklch(0.30 0.012 260); font-size: 12px; font-weight: 600; padding: 5px 10px; border-radius: 999px';
+
+    const zimmerOpts = ['alle', '1.5', '2.5', '3.5', '4.5+'];
+    const ortOpts = ['alle', 'Zug', 'Baar', 'Cham', 'Rotkreuz'];
+    const mieteOpts = [{ v: 0, l: 'egal' }, { v: 1800, l: "1'800" }, { v: 2500, l: "2'500" }, { v: 3000, l: "3'000" }];
+
+    return {
+      count: results.length,
+      total: units.length,
+      isEmpty: results.length === 0,
+      results: results.map((u) => ({ ...u, mieteLabel: fmt(u.miete), pillStyle: pill(u.status) })),
+      zimmerChips: zimmerOpts.map((o) => ({
+        label: o === 'alle' ? 'Alle' : o,
+        style: this.chipStyle(st.zimmer === o, accent),
+        pick: () => this.setState({ zimmer: o })
+      })),
+      ortChips: ortOpts.map((o) => ({
+        label: o === 'alle' ? 'Alle' : o,
+        style: this.chipStyle(st.ort === o, accent),
+        pick: () => this.setState({ ort: o })
+      })),
+      mieteChips: mieteOpts.map((o) => ({
+        label: o.l,
+        style: this.chipStyle(st.maxMiete === o.v, accent),
+        pick: () => this.setState({ maxMiete: o.v })
+      })),
+      sofortStyle: (st.sofort
+        ? 'display: flex; align-items: center; gap: 8px; padding: 9px 15px; border-radius: 999px; font-size: 15px; font-weight: 500; background: ' + accent + '; color: white; border: 1px solid ' + accent
+        : 'display: flex; align-items: center; gap: 8px; padding: 9px 15px; border-radius: 999px; font-size: 15px; background: oklch(0.97 0.004 260); color: oklch(0.35 0.012 260); border: 1px solid oklch(0.90 0.008 260)'),
+      toggleSofort: () => this.setState({ sofort: !st.sofort }),
+      reset: () => this.setState({ zimmer: 'alle', ort: 'alle', maxMiete: 0, sofort: false })
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -24,3 +24,7 @@ Thumbs.db
 .idea/
 .vscode/
 *.swp
+
+# Design: gesaeter Canvas ist ein Artefakt, die .dc.html-Quellen nicht.
+design/*.html
+!design/*.dc.html
