@@ -1,6 +1,6 @@
 # Deployment: GitHub -> Plesk (realnorth.ch)
 
-Ziel: Wir arbeiten im Repo, pushen nach GitHub, **Plesk holt sich den Stand
+Wir arbeiten im Repo, pushen nach GitHub, **Plesk holt sich den Stand
 selbst**. Diese Richtung ist nicht Geschmackssache, sondern die einzige, die
 funktioniert (siehe «Warum Plesk zieht»).
 
@@ -10,17 +10,20 @@ funktioniert (siehe «Warum Plesk zieht»).
 |---|---|
 | Panel | https://rlx1.loginserver.ch:8443/ |
 | Host / IP | `rlx1.loginserver.ch` -> `46.4.250.97` (identisch mit `realnorth.ch`) |
-| Stack | WordPress auf Plesk (Apache + nginx davor) |
-| Shell-Zugriff | **nein** (Stand: bestätigt) |
+| Stack | WordPress 7.1, PHP 8.5.9, nginx 1.30.4, MariaDB 10.11 |
+| WordPress-Root | `/httpdocs/realnorth/wordpress` (relativ zum Abo-Root) |
+| Shell-Zugriff | **nein** |
 | Repo | `spifroca/realnorth` (derzeit **öffentlich**, siehe Schritt 1) |
-| Default-Branch | `main` — muss noch angelegt werden, das Repo hat aktuell keinen Branch |
+| Default-Branch | `main` |
+
+Mehr zum Bestand: `ist-zustand.md`.
 
 ### Warum Plesk zieht und nicht wir pushen
 
 Aus einer Claude-Cloud-Session ist der Server nicht erreichbar. Gemessen:
 
-    curl https://realnorth.ch            -> 403 CONNECT tunnel failed
-    curl https://rlx1.loginserver.ch     -> 403 CONNECT tunnel failed
+    curl https://realnorth.ch             -> 403 CONNECT tunnel failed
+    curl https://rlx1.loginserver.ch      -> 403 CONNECT tunnel failed
     curl https://rlx1.loginserver.ch:8443 -> Connection reset by peer
     TCP 22                                -> dicht
 
@@ -34,18 +37,25 @@ Der Egress-Proxy erlaubt CONNECT praktisch nur auf Port 443. Das heisst:
 
 Deshalb: GitHub ist die Drehscheibe, Plesk der Konsument.
 
-## Einmal-Einrichtung
+## Was deployt wird
 
-Reihenfolge einhalten — Schritt 0 ist der Rückweg, falls Schritt 4 schiefgeht.
+Das Repo **ist** das Plugin `realnorth-custom`. Repo-Root entspricht
+`.../wp-content/plugins/realnorth-custom/` auf dem Server.
+
+Begründung für Plugin statt Theme: `ist-zustand.md`, Abschnitt «Warum
+Plugin und nicht Child-Theme». Kurz: PopularFX ist ein Fremd-Theme, und ein
+Theme-Wechsel würde die Customizer-Einstellungen zurücksetzen.
+
+## Einmal-Einrichtung
 
 ### 0. Backup, bevor irgendwas eingerichtet wird
 
-Plesk -> **Websites & Domains** -> realnorth.ch -> **File Manager** ->
-`httpdocs/wp-content/themes` -> aktives Theme markieren -> **Herunterladen**
-(Plesk zippt den Ordner). Zusätzlich, wenn im Abo erlaubt: **Backup Manager**
--> *Backup* (Dateien + Datenbank).
+Plesk -> **Websites & Domains** -> realnorth.ch -> **Backup Manager** ->
+Backup (Dateien + Datenbank). Wenn das Abo das nicht erlaubt: File Manager
+-> `httpdocs/realnorth/wordpress/wp-content` -> `plugins` und `themes`
+herunterladen.
 
-Das Zip bitte aufbewahren, bis der erste Deploy nachweislich sauber lief.
+Aufbewahren, bis der erste Deploy nachweislich sauber lief.
 
 ### 1. Sichtbarkeit des Repos entscheiden
 
@@ -53,20 +63,18 @@ Das Zip bitte aufbewahren, bis der erste Deploy nachweislich sauber lief.
 
 * Bequem: Plesk kann ohne Schlüssel klonen —
   `https://github.com/spifroca/realnorth.git` genügt, Schritt 2 entfällt.
-* Unbequem: der komplette Theme-Code eines Kundenprojekts liegt offen,
-  inklusive Commit-Historie. Für ein Kundenprojekt würde ich das Repo
-  **auf privat stellen** (GitHub -> Settings -> General -> Danger Zone ->
-  *Change visibility*) und Plesk per Deploy-Key anbinden (Schritt 2).
+* Unbequem: der Code eines Kundenprojekts liegt offen, inklusive
+  Commit-Historie. Für ein Kundenprojekt würde ich das Repo **auf privat
+  stellen** (GitHub -> Settings -> General -> Danger Zone -> *Change
+  visibility*) und Plesk per Deploy-Key anbinden (Schritt 2).
 
-Beides ist vertretbar — nur bitte bewusst entscheiden, nicht aus Versehen
-öffentlich lassen. Wenn privat: Schritt 2 machen und in Schritt 4 die
-SSH-URL eintragen.
+Bitte bewusst entscheiden, nicht aus Versehen öffentlich lassen.
 
 ### 2. Deploy-Key (nur bei privatem Repo)
 
-1. Plesk -> realnorth.ch -> **Git** -> Repository hinzufügen ->
-   **Remote Git repository** -> URL eintragen.
-   Plesk zeigt danach einen **öffentlichen SSH-Schlüssel** an -> kopieren.
+1. Plesk -> realnorth.ch -> **Git** -> *Remote repository* -> URL
+   `git@github.com:spifroca/realnorth.git` eintragen. Plesk zeigt danach
+   einen **öffentlichen SSH-Schlüssel** an -> kopieren.
 2. GitHub -> `spifroca/realnorth` -> **Settings** -> **Deploy keys** ->
    *Add deploy key*: Titel z. B. `plesk-rlx1`, Key einfügen,
    **«Allow write access» NICHT anhaken** (Plesk muss nur lesen).
@@ -74,46 +82,48 @@ SSH-URL eintragen.
 Read-only ist wichtig: ein kompromittierter Server kann damit keinen Code
 ins Repo schreiben.
 
-### 3. Deployment-Pfad — der kritische Schritt
+### 3. Repository in Plesk anlegen
 
-Plesk checkt den **Repo-Inhalt in den Deployment-Pfad** aus. Regel:
-
-> Der Deployment-Pfad darf nur ein Verzeichnis sein, dessen kompletter Inhalt
-> dem Repo gehört.
-
-Richtig:
-
-    httpdocs/wp-content/themes/<theme-slug>
-
-Falsch, und zwar gefährlich:
-
-* `httpdocs` — dort liegen WordPress-Core und `wp-config.php`.
-* `httpdocs/wp-content` — dort liegen `uploads/` (alle Medien!) und alle
-  Plugins, die niemand im Repo hat.
-
-Wenn die Seite ein **fremdes Theme** (gekauft/aus dem WP-Verzeichnis)
-benutzt: dieses Theme **nicht** ins Repo nehmen, sondern ein **Child-Theme**
-anlegen und nur dieses deployen. Sonst löscht das nächste Theme-Update im
-wp-admin unsere Änderungen bzw. unser Deploy überschreibt das Update.
-
-### 4. Git-Repository in Plesk anlegen
-
-Plesk -> realnorth.ch -> **Git** -> *Remote Git repository*:
+Plesk -> realnorth.ch -> **Git** -> *Create repository*:
 
 | Feld | Wert |
 |---|---|
-| Repository-URL | öffentlich: `https://github.com/spifroca/realnorth.git` — privat: `git@github.com:spifroca/realnorth.git` |
-| Branch | `main` |
-| Deployment-Pfad | `httpdocs/wp-content/themes/<theme-slug>` |
-| Deployment-Modus | zuerst **manuell**, später *automatisch* |
-| Additional deploy actions | steht ohne Shell-Zugriff nicht zur Verfügung — Feld bitte gegenprüfen und mir melden |
+| Code location | **Remote repository** |
+| Repository URL | `https://github.com/spifroca/realnorth.git` (privat: `git@github.com:…`) |
+| Repository name | `realnorth.git` (nur ein Plesk-interner Name) |
+| Deployment mode | zuerst **Manual**, später *Automatic* |
+| Server path | `/httpdocs/realnorth/wordpress/wp-content/plugins/realnorth-custom` |
+| Enable additional deployment actions | leer lassen — braucht Shell-Zugriff, den das Abo nicht hat |
 
-Erst **manuell** deployen. Dann einmal die Seite prüfen (Startseite, eine
-Unterseite, wp-admin). Erst danach auf automatisch umstellen.
+Zum Server-Pfad, weil hier der Schaden entsteht, wenn er falsch ist:
+
+> Der Server-Pfad darf nur ein Verzeichnis sein, dessen kompletter Inhalt
+> dem Repo gehört.
+
+Der Plesk-Vorschlag `/httpdocs/realnorth/wordpress` ist der
+**WordPress-Root** — dort niemals hin deployen. Ebenso tabu:
+`.../wp-content` (enthält `uploads/` mit allen Medien und alle Plugins).
+`.../plugins/realnorth-custom` existiert noch nicht und wird von Plesk
+angelegt; dort kann nichts überschrieben werden.
+
+Der Dialog hat kein Branch-Feld — Plesk nimmt den Default-Branch, und der
+steht auf `main`.
+
+### 4. Erster Deploy und Aktivierung
+
+1. Plesk -> Git -> **Deploy** (manuell) auslösen.
+2. File Manager -> `.../plugins/realnorth-custom/` -> es müssen
+   `realnorth-custom.php`, `assets/`, `docs/`, `bin/` dort liegen.
+3. wp-admin -> **Plugins** -> **realnorth Custom** -> *Aktivieren*.
+   Ab jetzt greift unser CSS. Das ist ein Einmal-Schritt; spätere Deploys
+   brauchen keine Aktivierung mehr.
+4. Startseite und eine Unterseite prüfen.
+
+Erst danach auf **Automatic** umstellen.
 
 ### 5. Auto-Deploy per Webhook
 
-Plesk zeigt beim Modus *automatisch* eine **Webhook-URL** (enthält ein Token,
+Plesk zeigt im Modus *Automatic* eine **Webhook-URL** (enthält ein Token,
 zeigt auf Port 8443). Diese eintragen unter:
 
 GitHub -> Repo -> **Settings** -> **Webhooks** -> *Add webhook*
@@ -122,35 +132,46 @@ GitHub -> Repo -> **Settings** -> **Webhooks** -> *Add webhook*
 * Secret: leer (das Token steckt in der URL)
 * Events: **Just the push event**
 
-Danach in GitHub unter *Recent Deliveries* prüfen, ob der Ping mit 2xx
-zurückkommt. Kommt ein Timeout: Firewall des Servers lässt GitHub nicht auf
-8443 — dann bleibt der Modus manuell («Pull now» nach jedem Push).
+Danach unter *Recent Deliveries* prüfen, ob der Ping mit 2xx zurückkommt.
+Bei Timeout lässt die Server-Firewall GitHub nicht auf 8443 — dann bleibt
+der Modus manuell («Deploy» nach jedem Push).
 
 ### 6. Löschverhalten testen (bevor wir uns darauf verlassen)
 
-Unklar ist, ob Plesk Dateien, die wir im Repo **löschen**, auch auf dem Server
-entfernt. Das ist versionsabhängig — also einmal messen statt raten:
+Unklar ist, ob Plesk Dateien, die wir im Repo **löschen**, auch auf dem
+Server entfernt. Das ist versionsabhängig — also einmal messen statt raten:
 
-1. Datei `_deploy-test.txt` committen und pushen -> deployen -> im File
-   Manager prüfen, dass sie da ist.
-2. Datei im Repo löschen, pushen -> deployen -> prüfen, ob sie **weg** ist.
+1. Datei `_deploy-test.txt` committen, pushen, deployen -> im File Manager
+   prüfen, dass sie da ist.
+2. Datei im Repo löschen, pushen, deployen -> prüfen, ob sie **weg** ist.
 3. Ergebnis hier notieren:
 
        Löschungen werden übernommen: [ ] ja   [ ] nein (manuell nachräumen)
 
-Wenn nein: umbenannte/gelöschte Templates müssen im File Manager gelöscht
-werden, sonst laufen verwaiste PHP-Dateien auf dem Server mit.
+Wenn nein: gelöschte oder umbenannte PHP-Dateien müssen im File Manager
+entfernt werden, sonst laufen verwaiste Dateien auf dem Server mit.
+
+### 7. Doku nicht ausliefern (optional)
+
+`docs/` und `bin/` landen mit dem Deploy unter
+`/wp-content/plugins/realnorth-custom/`. Inhaltlich ist das unkritisch
+(keine Zugangsdaten, das Repo ist öffentlich), aber ausgeliefert werden
+muss es nicht. `.htaccess` hilft hier nicht — der Server läuft nginx ohne
+Apache. Stattdessen in Plesk unter **Apache & nginx Settings** ->
+**Additional nginx directives**:
+
+    location ~* /wp-content/plugins/realnorth-custom/(docs|bin)/ { deny all; }
 
 ## Täglicher Ablauf
 
 1. Änderung im Repo, `bin/php-lint.sh` läuft grün.
 2. Commit + `git push`.
-3. Auto-Deploy (oder Plesk -> Git -> *Pull now*).
+3. Auto-Deploy (oder Plesk -> Git -> *Deploy*).
 4. Sichtprüfung auf realnorth.ch.
 
-**Nie** Dateien im Plesk File Manager direkt bearbeiten, die im Repo liegen —
-der nächste Deploy überschreibt sie kommentarlos, und die Änderung ist
-nirgends dokumentiert.
+**Nie** Dateien im Plesk File Manager bearbeiten, die im Repo liegen — der
+nächste Deploy überschreibt sie kommentarlos, und die Änderung ist nirgends
+dokumentiert.
 
 ## Rollback
 
@@ -160,21 +181,23 @@ neuer Commit, kein Zurückspringen:
     git revert <commit-sha>
     git push
 
-Seite komplett kaputt (weisser Screen)? Sofortmaßnahme ohne Git:
-File Manager -> Theme-Ordner löschen -> Zip aus Schritt 0 hochladen und
-entpacken. Danach Ursache im Repo suchen.
+Seite kaputt und es muss schnell gehen: wp-admin -> Plugins -> **realnorth
+Custom deaktivieren**. Das ist der Vorteil gegenüber einem Child-Theme oder
+mu-plugin — der Notausschalter liegt im Backend, ohne Git und ohne File
+Manager. Danach die Ursache im Repo suchen.
 
 ## Bekannte Stolpersteine
 
 * **Weisser Screen nach Deploy** — fast immer ein PHP-Syntaxfehler. Genau
   dagegen ist `bin/php-lint.sh` da; ohne Shell gibt es auf dem Server kein
-  `php -l` als Rettung.
-* **Änderung nicht sichtbar** — Caching-Plugin oder nginx-Cache in Plesk
-  leeren, dann Browser hart neu laden.
-* **Kein composer/npm auf dem Server** — ohne Shell laufen keine Deploy-Actions.
-  Alles Gebaute (kompiliertes CSS/JS, `vendor/`, wenn wirklich nötig) muss
-  eingecheckt sein, sonst fehlt es live.
-* **Datei-Eigentümer** — Plesk deployt als Systembenutzer des Abos. Wenn
-  WordPress später Dateien im Theme schreiben will (Editor im wp-admin), kann
-  das kollidieren. Der Theme-Editor im wp-admin sollte ohnehin ungenutzt
-  bleiben, solange das Theme aus Git kommt.
+  `php -l` als Rettung. Achtung: unser Lint läuft auf PHP 8.4, der Server
+  auf 8.5.9.
+* **Änderung nicht sichtbar** — CSS-Version hängt an `filemtime()`, das
+  greift nach dem Deploy sofort. Bleibt es alt, ist ein Caching-Plugin oder
+  der nginx-Cache in Plesk dran. Opcache ist auf diesem Server nicht aktiv,
+  ist also nicht die Ursache.
+* **Kein composer/npm auf dem Server** — ohne Shell laufen keine
+  Deploy-Actions. Alles Gebaute muss eingecheckt sein.
+* **Plugin-Ordner umbenennen** — dann muss der Server-Pfad in Plesk
+  mitgeändert und das Plugin im wp-admin neu aktiviert werden. Also besser
+  nicht.

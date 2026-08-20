@@ -1,0 +1,10 @@
+/*
+ * realnorth.ch — projektspezifisches CSS
+ *
+ * Wird vom Plugin realnorth-custom mit Priorität 20 geladen, also nach
+ * Theme und Pagelayer. Damit reicht normale Spezifität, !important
+ * sollte die Ausnahme bleiben.
+ *
+ * Cache-Busting läuft über filemtime() — nach dem Deploy ist die neue
+ * Version sofort aktiv, ohne Versionsnummer von Hand zu pflegen.
+ */

@@ -2,30 +2,52 @@
 
 ## Was das hier ist
 
-Code der WordPress-Website **realnorth.ch**, gehostet auf einem Plesk-Server
-(`rlx1.loginserver.ch`, Panel auf Port 8443). Das Repo enthält **nur den
-Teil, den wir pflegen** (Theme bzw. Child-Theme) — nicht den WordPress-Core,
-nicht `wp-config.php`, nicht `wp-content/uploads/`.
+Dieses Repo **ist das Plugin `realnorth-custom`** für die WordPress-Seite
+**realnorth.ch**. Repo-Root entspricht auf dem Server:
 
-Repo-Root entspricht dem Theme-Root auf dem Server:
-`httpdocs/wp-content/themes/<slug>/`.
+    /httpdocs/realnorth/wordpress/wp-content/plugins/realnorth-custom/
+
+Hier liegen unsere Anpassungen — eigenes CSS, Hooks, Funktionen,
+Shortcodes. Nicht hier: WordPress-Core, das Theme, Fremd-Plugins,
+`wp-config.php`, Uploads, Datenbank.
+
+## Die Seite in einem Absatz
+
+WordPress 7.1 auf Plesk (`rlx1.loginserver.ch`), PHP 8.5.9, nginx 1.30.4,
+MariaDB 10.11. Aktives Theme ist **PopularFX** (Fremd-Theme von Pagelayer),
+gebaut wird mit dem Page-Builder **Pagelayer**. Details und offene Risiken:
+`docs/ist-zustand.md`.
+
+Daraus die wichtigste Arbeitsteilung:
+
+* **Inhalte, Layouts, Seitenaufbau** liegen in der **Datenbank** und werden
+  im wp-admin mit Pagelayer bearbeitet. Git kann daran nichts ändern — nie
+  behaupten, ein Deploy würde ein Layout anpassen.
+* **Code** (CSS, Hooks, Funktionen) gehört hierher ins Plugin.
+* **Theme-Dateien nicht anfassen.** PopularFX ist fremd; ein Update
+  überschreibt Änderungen. Wenn Templates überschrieben werden müssen,
+  vorher über ein Child-Theme reden (`docs/ist-zustand.md` erklärt, warum
+  das nicht gratis ist).
 
 ## Wie Code live geht
 
 Push nach GitHub -> **Plesk zieht** (Git-Integration, Auto-Deploy per
-Webhook). Details und Einrichtung: `docs/plesk-deploy.md`.
+Webhook). Einrichtung und Rollback: `docs/plesk-deploy.md`.
 
-Daraus folgen drei harte Regeln:
+Drei harte Regeln:
 
-1. **Kein Build auf dem Server.** Das Abo hat keinen Shell-Zugriff, also
-   keine Plesk-Deploy-Actions, kein `composer install`, kein `npm ci`. Was
-   live wirken soll, muss fertig im Repo liegen — kompiliertes CSS/JS wird
-   eingecheckt, nicht ignoriert.
-2. **Nie Dateien im Plesk File Manager bearbeiten**, die im Repo liegen. Der
-   nächste Deploy überschreibt sie kommentarlos. Ausnahme: Notfall-Rollback.
+1. **Kein Build auf dem Server.** Kein Shell-Zugriff, also keine
+   Deploy-Actions, kein `composer install`, kein `npm ci`. Was live wirken
+   soll, muss fertig im Repo liegen — kompiliertes CSS/JS wird eingecheckt.
+2. **Nie Dateien im Plesk File Manager bearbeiten**, die im Repo liegen.
+   Der nächste Deploy überschreibt sie kommentarlos.
 3. **`bin/php-lint.sh` muss grün sein, bevor gepusht wird.** Ein
-   PHP-Syntaxfehler bedeutet weisser Screen auf der Live-Seite, und ohne
-   Shell gibt es dort kein `php -l` zum Nachsehen.
+   Syntaxfehler bedeutet weisser Screen live, und ohne Shell gibt es dort
+   kein `php -l`. Der Lint läuft hier auf PHP 8.4, der Server auf 8.5.9 —
+   bei Version-spezifischer Syntax genauer hinschauen.
+
+Notausschalter bei Problemen: wp-admin -> Plugins -> **realnorth Custom
+deaktivieren**. Deshalb ein normales Plugin und kein mu-plugin.
 
 ## Netzwerk in Cloud-Sessions
 
@@ -35,9 +57,7 @@ wird resettet). Also:
 
 * Keine Live-Checks, keine Screenshots der echten Seite, kein SFTP-Deploy
   annehmen, solange die Cloud-Umgebung «realnorth» nicht aktiv ist
-  (`docs/cloud-environment.md`).
-* Der Ist-Zustand der Seite kommt über die Checkliste in
-  `docs/ist-zustand-erfassen.md` ins Repo, nicht über einen Abruf.
+  (`docs/cloud-environment.md`). Selbst dann bleibt das Panel auf 8443 zu.
 * Was funktioniert: GitHub (git push, MCP-Tools), npm/Packagist/PyPI,
   `raw.githubusercontent.com`.
 
@@ -50,13 +70,15 @@ wird resettet). Also:
 * Datenbank nur über WordPress-APIs (`WP_Query`, `get_posts()`,
   `get_option()`), `$wpdb` nur mit `$wpdb->prepare()`.
 * Assets über `wp_enqueue_style()` / `wp_enqueue_script()` mit
-  Versionsstring registrieren — keine `<link>`/`<script>`-Tags direkt im
-  Template (sonst greift kein Cache-Busting).
-* Text-Domain konsistent verwenden, Strings über `__()` / `_e()`.
-* Keine hartcodierten URLs oder Pfade: `get_template_directory_uri()`,
-  `home_url()`, `get_stylesheet_directory()`.
-* Kein Ändern von Dateien ausserhalb des Theme-Roots — das Repo deployt nur
-  hierhin.
+  Versionsstring registrieren. Im Plugin dient `filemtime()` als Version —
+  ohne Build-Schritt ist das das einzige verlässliche Cache-Busting.
+* Priorität 20 bei `wp_enqueue_scripts`, damit unser CSS nach Theme und
+  Pagelayer kommt. Dann reicht normale Spezifität statt `!important`.
+* Text-Domain `realnorth`, Strings über `__()` / `_e()`.
+* Keine hartcodierten URLs oder Pfade: `plugins_url()`,
+  `plugin_dir_path()`, `home_url()`.
+* Namespace `RealNorth`, `declare( strict_types=1 )`, `ABSPATH`-Guard in
+  jeder PHP-Datei.
 
 ## Vor jedem Commit
 
@@ -68,7 +90,8 @@ Commits klein und thematisch halten. Ein Deploy = ein Push; wenn eine
 
 ## Offene Punkte
 
-Solange `docs/ist-zustand-erfassen.md` nicht abgearbeitet ist, sind
-unbekannt: aktives Theme und Theme-Slug, ob ein Page-Builder im Spiel ist,
-WordPress- und PHP-Version auf dem Server, Plugin-Bestand. Bis dahin keine
-Annahmen darüber treffen.
+* Update-Rückstand bei Pagelayer und WPForms — nicht blind updaten,
+  Begründung in `docs/ist-zustand.md`.
+* Löschverhalten des Plesk-Deploys ist ungetestet
+  (`docs/plesk-deploy.md`, Schritt 6).
+* Repo ist öffentlich; für ein Kundenprojekt eher privat + Deploy-Key.

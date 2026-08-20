@@ -1,30 +1,41 @@
 # realnorth
 
-Code der WordPress-Website **[realnorth.ch](https://realnorth.ch)**, gehostet
-auf Plesk (`rlx1.loginserver.ch`).
+Plugin `realnorth-custom` — die projektspezifischen Code-Anpassungen der
+WordPress-Seite **[realnorth.ch](https://realnorth.ch)**, gehostet auf Plesk
+(`rlx1.loginserver.ch`).
 
-Das Repo enthält den selbst gepflegten Teil der Seite — Theme bzw.
-Child-Theme. WordPress-Core, `wp-config.php`, Uploads und Datenbank sind
-bewusst nicht drin.
+Repo-Root entspricht auf dem Server:
+
+    /httpdocs/realnorth/wordpress/wp-content/plugins/realnorth-custom/
+
+Nicht im Repo: WordPress-Core, das PopularFX-Theme, Fremd-Plugins,
+`wp-config.php`, Uploads, Datenbank.
 
 ## Einstieg
 
 | Dokument | Inhalt |
 |---|---|
-| [`docs/ist-zustand-erfassen.md`](docs/ist-zustand-erfassen.md) | **Hier anfangen.** Was aus Plesk/WordPress einmal geliefert werden muss, damit der echte Stand der Seite ins Repo kommt. |
-| [`docs/plesk-deploy.md`](docs/plesk-deploy.md) | Einrichtung des Deployments GitHub -> Plesk, Deployment-Pfad, Webhook, Rollback. |
-| [`docs/cloud-environment.md`](docs/cloud-environment.md) | Cloud-Umgebung für Claude-Code-Sessions, inkl. gemessener Netzwerk-Einschränkungen. |
-| [`CLAUDE.md`](CLAUDE.md) | Arbeitsregeln (Deploy-Richtung, WordPress-Konventionen, Lint-Pflicht). |
+| [`docs/ist-zustand.md`](docs/ist-zustand.md) | Stack, Pfade, Theme, Plugins, offene Risiken — und warum unser Code ein Plugin ist und kein Child-Theme. |
+| [`docs/plesk-deploy.md`](docs/plesk-deploy.md) | Deployment GitHub -> Plesk: Feldwerte für den Plesk-Dialog, Webhook, Rollback. |
+| [`docs/ist-zustand-erfassen.md`](docs/ist-zustand-erfassen.md) | Wie man den Ist-Zustand neu erhebt. |
+| [`docs/cloud-environment.md`](docs/cloud-environment.md) | Cloud-Umgebung für Claude-Code-Sessions inkl. gemessener Netzwerk-Grenzen. |
+| [`CLAUDE.md`](CLAUDE.md) | Arbeitsregeln und WordPress-Konventionen. |
 
-## Werkzeuge
+## Aufbau
 
-    ./bin/php-lint.sh     # Syntax-Check aller PHP-Dateien, Pflicht vor dem Push
-
-`.claude/hooks/session-start.sh` installiert in Cloud-Sessions automatisch
-wp-cli.
+    realnorth-custom.php     Plugin-Header, lädt das Stylesheet (Priorität 20)
+    assets/css/site.css      projektspezifisches CSS
+    bin/php-lint.sh          Syntax-Check, Pflicht vor dem Push
+    docs/                    Doku (siehe oben)
 
 ## Deployment in einem Satz
 
-Push auf `main` -> Plesk zieht den Stand per Git-Integration in
-`httpdocs/wp-content/themes/<slug>/`. Kein Build auf dem Server (kein
-Shell-Zugriff), also muss alles Fertige eingecheckt sein.
+Push auf `main` -> Plesk zieht den Stand in den Plugin-Ordner. Kein Build
+auf dem Server (kein Shell-Zugriff), also muss alles Fertige eingecheckt
+sein. Notausschalter: Plugin im wp-admin deaktivieren.
+
+## Wichtig zu wissen
+
+Die Seite ist mit dem Page-Builder **Pagelayer** gebaut. Layouts und
+Inhalte liegen in der Datenbank, nicht in Dateien — sie werden im wp-admin
+bearbeitet, nicht über dieses Repo.

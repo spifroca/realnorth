@@ -1,66 +1,44 @@
-# Ist-Zustand von realnorth.ch erfassen
+# Ist-Zustand aktualisieren
 
-Solange das Repo leer ist, kenne ich die Seite nicht — und ich komme aus der
-Session nicht an sie heran (Egress gesperrt, siehe `plesk-deploy.md`). Damit
-wir mit echten Dateien statt Annahmen arbeiten, brauche ich einmal die
-folgenden vier Dinge. Alles ohne Shell, alles im Browser machbar.
+Der erfasste Stand steht in `ist-zustand.md` (Stand 2026-08-20). Diese
+Anleitung beschreibt, wie man ihn neu erhebt — nach Updates, nach einem
+Plugin-Wechsel, oder wenn etwas nicht mehr zusammenpasst.
 
-## 1. Website-Zustand aus WordPress (liefert 90 % der Antworten)
+Aus einer Cloud-Session ist die Seite nicht abrufbar (siehe
+`plesk-deploy.md`), der Stand kommt also aus dem Backend, nicht aus einem
+HTTP-Abruf.
 
-wp-admin -> **Werkzeuge** -> **Website-Zustand** -> Reiter **Infos** ->
-Button **«Website-Informationen in die Zwischenablage kopieren»** -> hier
-einfügen (oder als `.txt` ins Repo legen).
+## 1. Site-Health-Bericht (liefert fast alles)
 
-Darin steckt: WordPress-Version, aktives Theme inkl. Parent-Theme, alle
-aktiven und inaktiven Plugins mit Versionen, PHP- und MySQL-Version,
-PHP-Limits, Serverpfade, aktive Konstanten.
+    https://realnorth.ch/wp-admin/site-health.php?tab=debug
 
-> **Vorher durchsehen und Zugangsdaten entfernen.** Der Bericht enthält
-> normalerweise keine Passwörter, aber er enthält Pfade und Versionen. Keine
-> DB-Passwörter, API-Keys oder `wp-config.php`-Inhalte hier einfügen — auch
-> nicht ins Repo.
+Menüweg: **Werkzeuge -> Website-Zustand -> Reiter «Informationen»** ->
+Button «Website-Informationen in die Zwischenablage kopieren».
 
-## 2. Aktives Theme als Zip
+Darin: WordPress-Version, aktives Theme inkl. Parent, alle Plugins mit
+Versionen, PHP-/MariaDB-Version, Serverpfade, Konstanten, Limits.
 
-Plesk -> **File Manager** -> `httpdocs/wp-content/themes/` ->
-den Ordner des aktiven Themes markieren -> **Herunterladen**.
+Braucht die Rolle **Administrator** — als Redakteur ist der Menüpunkt
+unsichtbar.
 
-Das ist gleichzeitig das Backup aus Schritt 0 der Deploy-Anleitung.
+## 2. Ergänzend aus Plesk
 
-## 3. Wie wird die Seite inhaltlich gepflegt?
+* **WordPress Toolkit** (Plesk -> WordPress): Version, Theme, Plugins,
+  Installationspfad auf einem Blick. Dort liegt auch die Klon-Funktion für
+  eine Staging-Kopie.
+* **PHP-Einstellungen** der Domain, falls die Version wechselt.
 
-Kurz beantworten, das entscheidet, *wo* wir überhaupt sinnvoll arbeiten:
+## 3. Theme oder Plugin als Datei
 
-* Page-Builder im Einsatz (Elementor, WPBakery, Divi, Bricks …)? Wenn ja:
-  Layouts liegen in der Datenbank, nicht im Theme — Code-Deploys betreffen
-  dann nur Kleinteile (Funktionen, CSS-Feinschliff, Templates).
-* Gutenberg/Block-Editor mit Standard-Theme?
-* Oder ein handgebautes Custom-Theme (dann ist Git der richtige Ort für alles)?
+File Manager -> `httpdocs/realnorth/wordpress/wp-content/…` -> Ordner
+markieren -> **Herunterladen** (Plesk zippt).
 
-## 4. Struktur von httpdocs
+## Was nicht ins Repo gehört
 
-Plesk -> File Manager -> `httpdocs` -> Screenshot oder Dateiliste.
-Interessant ist nur: liegt WordPress direkt in `httpdocs`, oder in einem
-Unterordner; gibt es zusätzliche Ordner, die nicht zu WordPress gehören.
-
----
-
-## Was ich damit mache
-
-1. Theme-Zip auspacken, Inhalt in dieses Repo als ersten echten Commit
-   (Repo-Root = Theme-Root, passend zum Deployment-Pfad aus
-   `plesk-deploy.md`).
-2. `bin/php-lint.sh` über den Bestand laufen lassen, offensichtliche Altlasten
-   melden (fehlende Escapes, direkte DB-Zugriffe, hartcodierte URLs).
-3. Entscheiden, ob wir am Theme selbst arbeiten oder ein Child-Theme brauchen
-   (falls es ein fremdes Theme ist).
-4. Deployment-Pfad in Plesk final festlegen und den Löschtest durchziehen.
-
-## Nicht hierher gehören
-
-* `wp-config.php` (enthält DB-Zugangsdaten und Salts)
+* `wp-config.php` (DB-Zugangsdaten, Salts)
 * Datenbank-Dumps
-* `wp-content/uploads/` (Medien; gehören nicht in Git)
-* WordPress-Core-Dateien (macht das Repo gross und kollidiert mit Updates)
+* `wp-content/uploads/` (206 MB Medien)
+* WordPress-Core und Fremd-Plugins/-Themes
 
-Alles davon ist in `.gitignore` bereits ausgeschlossen.
+Alles davon ist in `.gitignore` ausgeschlossen. Zugangsdaten, Lizenzschlüssel
+und Tokens gehören auch nicht in den Chat.
