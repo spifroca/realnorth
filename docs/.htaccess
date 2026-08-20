@@ -1,0 +1,15 @@
+# Diese Doku wird zusammen mit dem Theme deployt und liegt damit unter
+# /wp-content/themes/<slug>/docs/. Nichts davon soll ausgeliefert werden.
+# Achtung: In Plesk liefert nginx statische Dateien oft direkt aus und
+# ignoriert .htaccess. Zusaetzlich in Plesk unter
+# «Apache & nginx Settings» -> «Additional nginx directives» eintragen:
+#
+#   location ~* /wp-content/themes/[^/]+/(docs|bin)/ { deny all; }
+#
+<IfModule mod_authz_core.c>
+	Require all denied
+</IfModule>
+<IfModule !mod_authz_core.c>
+	Order allow,deny
+	Deny from all
+</IfModule>
