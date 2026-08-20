@@ -1,17 +1,18 @@
 {
   "artboards": [
-    { "file": "Main.dc.html",      "title": "A — Terrain",        "x": 0,    "y": 0,    "w": 1440, "h": 2900 },
-    { "file": "Kompass.dc.html",   "title": "B — Kompass",        "x": 1560, "y": 0,    "w": 1440, "h": 2600 },
-    { "file": "Nordlicht.dc.html", "title": "C — Nordlicht",      "x": 3120, "y": 0,    "w": 1440, "h": 2800 },
-    { "file": "Wohnungen.dc.html", "title": "Live-Suche (Modul)", "x": 780,  "y": 3400, "w": 1280, "h": 1400 }
+    { "file": "Main.dc.html",      "title": "A2 — Terrain modern",  "x": 0,    "y": 0,    "w": 1440, "h": 3050 },
+    { "file": "TerrainV1.dc.html", "title": "A — Ausgangsfassung",  "x": 1560, "y": 0,    "w": 1440, "h": 2900 },
+    { "file": "Wohnungen.dc.html", "title": "Live-Suche (Modul)",   "x": 3120, "y": 0,    "w": 1280, "h": 1400 },
+    { "file": "Kompass.dc.html",   "title": "B — Kompass (verworfen)",   "x": 1560, "y": 3200, "w": 1440, "h": 2600 },
+    { "file": "Nordlicht.dc.html", "title": "C — Nordlicht (verworfen)", "x": 3120, "y": 3200, "w": 1440, "h": 2800 }
   ],
   "annotations": [
-    { "id": "brief", "x": 0, "y": -340, "w": 620, "text": "realnorth.ch — drei Richtungen zur Wahl\n\nBitte eine auswählen (oder mischen), dann baue ich sie zur vollständigen Seite aus: Startseite, Bauprojekte-Übersicht + Detail, Bewirtschaftung, Wohnungssuche + Dossier, Kontakt.\n\nAlles in [Klammern] ist Platzhalter — echte Zahlen, Orte, Projektnamen und Texte fehlen mir noch. Bilder sind bewusst als Flächen angelegt statt schlecht erfunden." },
-    { "id": "axis-a", "x": 0, "y": 2960, "w": 400, "text": "A — Terrain: editorial, ruhig, architekturnah. Serif-Display, Papierton, freie Wohnungen als Schweizer Tabelle statt als Kachelteppich.\n\nStärke: wirkt teuer und dauerhaft, stellt Projekte in den Vordergrund.\nPreis: am wenigsten «dynamisch», lebt von guten Fotos." },
-    { "id": "axis-b", "x": 1560, "y": 2660, "w": 400, "text": "B — Kompass: dunkel, Plattform-Logik, Suche und Zahlen zuerst. Kennzahlen, Baufortschritt-Balken, Status-Pills.\n\nStärke: erfüllt «modern und dynamisch» am direktesten, skaliert mit vielen Objekten.\nPreis: technischer Ton, weniger emotional." },
-    { "id": "axis-c", "x": 3120, "y": 2860, "w": 400, "text": "C — Nordlicht: markenstark, grosse Typo, Farbfeld, gebrochenes Raster.\n\nStärke: unverwechselbar, klar der modernste Auftritt.\nPreis: verlangt Mut und konsequente Pflege; ungewohnt für eine Bewirtschaftung." },
-    { "id": "modul", "x": 2140, "y": 3400, "w": 420, "text": "Die Live-Suche ist bedienbar: Zimmer, Ort, Miete und «sofort verfügbar» filtern wirklich, mit Zähler und Leerzustand samt Suchabo.\n\nDas Farbfeld oben am Artboard wechselt den Akzent — so lässt sich das Modul in jede der drei Richtungen einpassen." },
-    { "id": "daten", "x": 780, "y": 4880, "w": 620, "text": "Datenquelle: Comparis liefert keine Inserate aus, sondern nimmt sie an — der Feed läuft aus der Bewirtschaftungssoftware zu Comparis, gratis und ohne Mengenlimit. Die Website zieht deshalb aus derselben Quelle, die Comparis füttert. Welche Software das ist, fehlt mir noch." }
+    { "id": "brief", "x": 0, "y": -420, "w": 640, "text": "A2 — «A, aber moderner»\n\nGleiche Seele wie A: editorial, ruhig, Serif-Display, Papierton, Wohnungen als Liste statt Kachelteppich.\n\nModernisiert: Suchfeld direkt im Hero (das Dynamik-Versprechen sofort sichtbar), klebende schlanke Navigation, Kennzahlen-Band, Projekte als horizontale Schiene mit Baufortschritt, Wohnungs-Liste mit Thumbnail, Chips und Status-Pills, dunkles Band für die Bewirtschaftung, runde Medienecken, Grün als einziger Akzent, Mono für Meta-Daten.\n\nAlles in [Klammern] ist eine offene Stelle." },
+    { "id": "typo", "x": 0, "y": 3110, "w": 460, "text": "Typografie A2: Instrument Serif für Überschriften und Zahlen, Schibsted Grotesk für Text und UI, IBM Plex Mono für Labels, Kennzahlen-Beschriftungen und Meta-Zeilen.\n\nDer Mono-Anteil macht den grössten Teil des «moderner» — er ist in Architektur- und Immobilienauftritten derzeit die Sprache für Fakten." },
+    { "id": "vergleich", "x": 1560, "y": 2960, "w": 420, "text": "A in der Ausgangsfassung, zum direkten Vergleich stehengelassen: Karla statt Schibsted/Mono, harte Kanten, kein Suchfeld im Hero, Wohnungen als dunkle Tabelle.\n\nWenn dir daran etwas besser gefällt, sag welches Detail — dann wandert es zurück in A2." },
+    { "id": "modul", "x": 4480, "y": 0, "w": 420, "text": "Die Live-Suche ist bedienbar: Zimmer, Ort, Miete und «sofort verfügbar» filtern wirklich, mit Zähler und Leerzustand samt Suchabo.\n\nNoch im Stil von B. Sobald A2 steht, ziehe ich das Modul auf dessen Palette und Typografie um — es ist die Seite «Freie Wohnungen» in voller Länge." },
+    { "id": "verworfen", "x": 1560, "y": 5860, "w": 460, "text": "B und C bleiben nur als Referenz auf der Fläche. Falls sich die Richtung noch dreht, ist der Vergleich da; sonst löschen wir sie beim nächsten Durchgang." },
+    { "id": "daten", "x": 0, "y": 3600, "w": 640, "text": "Datenquelle unverändert offen: Comparis liefert keine Inserate aus, sondern nimmt sie an. Die Seite zieht deshalb aus derselben Quelle, die Comparis füttert — welche Bewirtschaftungssoftware das ist, fehlt mir noch.\n\nBis dahin sind alle Objektdaten hier Beispieldaten." }
   ],
   "launch": { "view": "canvas" }
 }

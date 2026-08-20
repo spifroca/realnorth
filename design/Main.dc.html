@@ -7,138 +7,190 @@
 <body>
 <x-dc>
 <helmet>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Karla:wght@400;500;600&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Schibsted+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
   <style>
-    body { margin: 0; font-family: Karla, "Helvetica Neue", sans-serif; }
-    a { color: oklch(0.45 0.09 45); text-decoration: none; }
-    a:hover { color: oklch(0.32 0.07 45); }
-    .rn-rule { border: 0; border-top: 1px solid oklch(0.86 0.01 80); margin: 0; }
-    .rn-ph { background-image: repeating-linear-gradient(135deg, oklch(0.90 0.012 80) 0 2px, transparent 2px 9px); }
+    body { margin: 0; font-family: "Schibsted Grotesk", system-ui, sans-serif; }
+    a { color: oklch(0.42 0.09 160); text-decoration: none; }
+    a:hover { color: oklch(0.30 0.07 160); }
+    .t-mono { font-family: "IBM Plex Mono", ui-monospace, monospace; }
+    .t-serif { font-family: "Instrument Serif", Georgia, serif; font-weight: 400; }
+    .t-ph { background:
+      linear-gradient(140deg, oklch(0.90 0.008 120) 0%, oklch(0.84 0.010 150) 100%); }
+    .t-rule { border: 0; border-top: 1px solid oklch(0.885 0.006 95); margin: 0; }
+    .t-row:hover { background: oklch(0.955 0.005 95); }
   </style>
 </helmet>
 
-<div style="width: 1440px; background: oklch(0.972 0.008 85); color: oklch(0.24 0.015 70)">
+<div style="width: 1440px; background: oklch(0.978 0.004 95); color: oklch(0.19 0.010 75)">
 
-  <div style="display: flex; align-items: baseline; justify-content: space-between; padding: 28px 72px 24px 72px">
-    <div style="font-family: 'Instrument Serif', Georgia, serif; font-size: 26px; letter-spacing: 0.01em">realnorth</div>
-    <div style="display: flex; gap: 36px; font-size: 15px; letter-spacing: 0.02em">
-      <a href="#">Bauprojekte</a>
-      <a href="#">Bewirtschaftung</a>
-      <a href="#">Freie Wohnungen</a>
-      <a href="#">Über uns</a>
-    </div>
-    <a href="#" style="font-size: 14px; letter-spacing: 0.08em; text-transform: uppercase; border-bottom: 1px solid oklch(0.55 0.10 45); padding-bottom: 3px">Kontakt</a>
-  </div>
-  <hr class="rn-rule">
-
-  <div style="display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 24px; padding: 96px 72px 80px 72px">
-    <div style="grid-column: span 7; display: flex; flex-direction: column; gap: 32px">
-      <div style="font-size: 13px; letter-spacing: 0.16em; text-transform: uppercase; color: oklch(0.55 0.03 70)">Immobilien · [Region]</div>
-      <h1 style="font-family: 'Instrument Serif', Georgia, serif; font-weight: 400; font-size: 92px; line-height: 0.98; margin: 0; text-wrap: pretty">Wir bauen, bewirtschaften und vermieten — an einem Ort.</h1>
-      <p style="font-size: 20px; line-height: 1.6; max-width: 46ch; margin: 0; color: oklch(0.38 0.015 70)">Von der Baueingabe bis zur Schlüsselübergabe und weiter durch den ganzen Lebenszyklus der Liegenschaft. [Anzahl] Objekte in [Region] in unserer Bewirtschaftung.</p>
-      <div style="display: flex; gap: 16px; align-items: center">
-        <a href="#" style="background: oklch(0.24 0.015 70); color: oklch(0.972 0.008 85); padding: 16px 28px; font-size: 16px; letter-spacing: 0.02em">Freie Wohnungen ansehen</a>
-        <a href="#" style="padding: 16px 4px; font-size: 16px; border-bottom: 1px solid currentColor">Bauprojekte</a>
+  <div style="position: sticky; top: 0; z-index: 10; background: oklch(0.978 0.004 95 / 0.86); backdrop-filter: blur(12px); border-bottom: 1px solid oklch(0.885 0.006 95)">
+    <div style="display: flex; align-items: center; justify-content: space-between; padding: 16px 64px">
+      <div class="t-serif" style="font-size: 25px; letter-spacing: -0.005em">realnorth</div>
+      <div style="display: flex; gap: 30px; font-size: 15px; font-weight: 500">
+        <a href="#" style="color: oklch(0.19 0.010 75)">Bauprojekte</a>
+        <a href="#" style="color: oklch(0.19 0.010 75)">Bewirtschaftung</a>
+        <a href="#" style="color: oklch(0.19 0.010 75)">Freie Wohnungen</a>
+        <a href="#" style="color: oklch(0.19 0.010 75)">Über uns</a>
       </div>
-    </div>
-    <div class="rn-ph" style="grid-column: span 5; min-height: 520px; border: 1px solid oklch(0.86 0.01 80); display: flex; align-items: flex-end; padding: 20px">
-      <div style="font-size: 13px; letter-spacing: 0.04em; color: oklch(0.50 0.02 70); background: oklch(0.972 0.008 85); padding: 6px 10px">Bild: Referenzobjekt, Hochformat</div>
-    </div>
-  </div>
-
-  <hr class="rn-rule">
-
-  <div style="padding: 72px 72px 24px 72px; display: flex; align-items: flex-end; justify-content: space-between">
-    <h2 style="font-family: 'Instrument Serif', Georgia, serif; font-weight: 400; font-size: 44px; margin: 0">Aktuelle Bauprojekte</h2>
-    <a href="#" style="font-size: 15px; border-bottom: 1px solid currentColor">Alle Projekte</a>
-  </div>
-
-  <div style="display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 24px; padding: 24px 72px 80px 72px">
-    <div style="grid-column: span 7; display: flex; flex-direction: column; gap: 18px">
-      <div class="rn-ph" style="height: 360px; border: 1px solid oklch(0.86 0.01 80)"></div>
-      <div style="display: flex; justify-content: space-between; align-items: baseline">
-        <h3 style="font-family: 'Instrument Serif', Georgia, serif; font-weight: 400; font-size: 30px; margin: 0">[Projektname], [Ort]</h3>
-        <div style="font-size: 14px; letter-spacing: 0.1em; text-transform: uppercase; color: oklch(0.55 0.10 45)">Im Bau</div>
-      </div>
-      <p style="margin: 0; font-size: 17px; line-height: 1.6; color: oklch(0.40 0.015 70); max-width: 54ch">[Kurzbeschrieb: Nutzung, Anzahl Wohnungen, Bezugstermin.]</p>
-      <div style="display: flex; gap: 40px; font-size: 15px; color: oklch(0.45 0.02 70)">
-        <div><span style="display: block; font-size: 13px; letter-spacing: 0.1em; text-transform: uppercase; color: oklch(0.60 0.02 70)">Wohnungen</span>[Anzahl]</div>
-        <div><span style="display: block; font-size: 13px; letter-spacing: 0.1em; text-transform: uppercase; color: oklch(0.60 0.02 70)">Bezug</span>[Quartal/Jahr]</div>
-        <div><span style="display: block; font-size: 13px; letter-spacing: 0.1em; text-transform: uppercase; color: oklch(0.60 0.02 70)">Status</span>Rohbau</div>
-      </div>
-    </div>
-    <div style="grid-column: span 5; display: flex; flex-direction: column; gap: 32px; padding-top: 64px">
-      <div style="display: flex; flex-direction: column; gap: 14px">
-        <div class="rn-ph" style="height: 200px; border: 1px solid oklch(0.86 0.01 80)"></div>
-        <h3 style="font-family: 'Instrument Serif', Georgia, serif; font-weight: 400; font-size: 24px; margin: 0">[Projektname], [Ort]</h3>
-        <div style="font-size: 14px; color: oklch(0.50 0.02 70)">In Planung · [Anzahl] Wohnungen</div>
-      </div>
-      <div style="display: flex; flex-direction: column; gap: 14px">
-        <div class="rn-ph" style="height: 200px; border: 1px solid oklch(0.86 0.01 80)"></div>
-        <h3 style="font-family: 'Instrument Serif', Georgia, serif; font-weight: 400; font-size: 24px; margin: 0">[Projektname], [Ort]</h3>
-        <div style="font-size: 14px; color: oklch(0.50 0.02 70)">Fertiggestellt [Jahr]</div>
+      <div style="display: flex; align-items: center; gap: 12px">
+        <a href="#" class="t-mono" style="font-size: 13px; color: oklch(0.48 0.010 75)">Schadenmeldung</a>
+        <a href="#" style="background: oklch(0.19 0.010 75); color: oklch(0.978 0.004 95); padding: 11px 20px; border-radius: 10px; font-size: 15px; font-weight: 500">Kontakt</a>
       </div>
     </div>
   </div>
 
-  <div style="background: oklch(0.24 0.015 70); color: oklch(0.96 0.006 85); padding: 80px 72px">
-    <div style="display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 40px">
-      <h2 style="font-family: 'Instrument Serif', Georgia, serif; font-weight: 400; font-size: 44px; margin: 0">Freie Wohnungen</h2>
-      <div style="font-size: 15px; color: oklch(0.75 0.01 85)">Direkt aus unserer Bewirtschaftung · täglich aktualisiert</div>
-    </div>
-    <div style="display: flex; flex-direction: column">
-      <div style="display: grid; grid-template-columns: 3fr 1.4fr 1fr 1.2fr 1.4fr 0.8fr; gap: 24px; padding: 14px 0; font-size: 13px; letter-spacing: 0.12em; text-transform: uppercase; color: oklch(0.70 0.01 85); border-bottom: 1px solid oklch(0.36 0.015 70)">
-        <div>Objekt</div><div>Ort</div><div>Zimmer</div><div>Fläche</div><div>Miete</div><div></div>
+  <div style="display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 24px; padding: 84px 64px 56px 64px; align-items: start">
+    <div style="grid-column: span 7; display: flex; flex-direction: column; gap: 28px">
+      <div class="t-mono" style="display: flex; align-items: center; gap: 10px; font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; color: oklch(0.42 0.09 160)">
+        <span style="width: 6px; height: 6px; border-radius: 999px; background: oklch(0.52 0.12 160)"></span>
+        <span>[Anzahl] freie Wohnungen · Stand heute</span>
       </div>
-      <sc-for list="{{units}}" as="unit" hint-placeholder-count="4">
-        <div style="display: grid; grid-template-columns: 3fr 1.4fr 1fr 1.2fr 1.4fr 0.8fr; gap: 24px; padding: 22px 0; align-items: center; border-bottom: 1px solid oklch(0.32 0.015 70); font-size: 17px">
-          <div style="font-family: 'Instrument Serif', Georgia, serif; font-size: 22px">{{unit.name}}</div>
-          <div style="color: oklch(0.80 0.01 85)">{{unit.ort}}</div>
-          <div style="color: oklch(0.80 0.01 85)">{{unit.zimmer}}</div>
-          <div style="color: oklch(0.80 0.01 85)">{{unit.flaeche}}</div>
-          <div>{{unit.miete}}</div>
-          <div style="text-align: right"><a href="#" style="color: oklch(0.85 0.06 60); border-bottom: 1px solid currentColor; font-size: 15px">Details</a></div>
+      <h1 class="t-serif" style="font-size: 96px; line-height: 0.94; letter-spacing: -0.02em; margin: 0; text-wrap: pretty">Wir bauen, bewirtschaften und vermieten.</h1>
+      <p style="font-size: 20px; line-height: 1.55; max-width: 44ch; margin: 0; color: oklch(0.44 0.010 75)">Von der Baueingabe bis zur Schlüsselübergabe — und danach durch den ganzen Lebenszyklus der Liegenschaft. [Region], seit [Jahr].</p>
+
+      <div style="background: oklch(1 0 0); border: 1px solid oklch(0.885 0.006 95); border-radius: 16px; padding: 14px; display: flex; align-items: center; gap: 10px; box-shadow: 0 1px 2px oklch(0.19 0.01 75 / 0.04), 0 8px 24px oklch(0.19 0.01 75 / 0.05)">
+        <div style="display: flex; align-items: center; gap: 10px; flex-grow: 1; padding: 0 12px">
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="oklch(0.55 0.01 75)" stroke-width="1.6"><circle cx="8" cy="8" r="5.5"></circle><path d="M12 12l3.5 3.5"></path></svg>
+          <span style="font-size: 16px; color: oklch(0.55 0.010 75)">Ort oder PLZ</span>
+        </div>
+        <div style="width: 1px; height: 26px; background: oklch(0.90 0.006 95)"></div>
+        <div class="t-mono" style="font-size: 14px; color: oklch(0.35 0.010 75); padding: 0 14px">Zimmer</div>
+        <div style="width: 1px; height: 26px; background: oklch(0.90 0.006 95)"></div>
+        <div class="t-mono" style="font-size: 14px; color: oklch(0.35 0.010 75); padding: 0 14px">Miete bis</div>
+        <div style="background: oklch(0.42 0.09 160); color: oklch(0.99 0.005 160); padding: 13px 24px; border-radius: 10px; font-size: 15px; font-weight: 600">Suchen</div>
+      </div>
+    </div>
+
+    <div style="grid-column: span 5; position: relative; padding-top: 8px">
+      <div class="t-ph" style="height: 540px; border-radius: 24px"></div>
+      <div style="position: absolute; left: -56px; bottom: 40px; background: oklch(1 0 0); border: 1px solid oklch(0.885 0.006 95); border-radius: 18px; padding: 20px 22px; width: 210px; box-shadow: 0 12px 32px oklch(0.19 0.01 75 / 0.10)">
+        <div class="t-serif" style="font-size: 40px; line-height: 1">[1'240]</div>
+        <div class="t-mono" style="font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: oklch(0.48 0.010 75); margin-top: 4px">Einheiten in Bewirtschaftung</div>
+      </div>
+      <div class="t-mono" style="position: absolute; right: 18px; bottom: 16px; font-size: 12px; color: oklch(0.99 0.004 95); background: oklch(0.19 0.01 75 / 0.55); padding: 6px 10px; border-radius: 8px">Bild: Referenzobjekt</div>
+    </div>
+  </div>
+
+  <div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); border-top: 1px solid oklch(0.885 0.006 95); border-bottom: 1px solid oklch(0.885 0.006 95)">
+    <sc-for list="{{stats}}" as="s" hint-placeholder-count="4">
+      <div style="{{s.cell}}">
+        <div class="t-serif" style="font-size: 38px; line-height: 1">{{s.value}}</div>
+        <div class="t-mono" style="font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: oklch(0.48 0.010 75); margin-top: 6px">{{s.label}}</div>
+      </div>
+    </sc-for>
+  </div>
+
+  <div style="padding: 72px 64px 20px 64px; display: flex; align-items: flex-end; justify-content: space-between">
+    <div>
+      <div class="t-mono" style="font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; color: oklch(0.42 0.09 160); margin-bottom: 12px">01 — Entwicklung</div>
+      <h2 class="t-serif" style="font-size: 52px; letter-spacing: -0.015em; margin: 0">Aktuelle Bauprojekte</h2>
+    </div>
+    <div style="display: flex; align-items: center; gap: 20px">
+      <a href="#" style="font-size: 15px; font-weight: 500">Alle Projekte</a>
+      <div style="display: flex; gap: 8px">
+        <div style="width: 38px; height: 38px; border: 1px solid oklch(0.885 0.006 95); border-radius: 999px; display: flex; align-items: center; justify-content: center">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="oklch(0.55 0.01 75)" stroke-width="1.6"><path d="M10 3.5L5.5 8l4.5 4.5"></path></svg>
+        </div>
+        <div style="width: 38px; height: 38px; background: oklch(0.19 0.010 75); border-radius: 999px; display: flex; align-items: center; justify-content: center">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="oklch(0.98 0.004 95)" stroke-width="1.6"><path d="M6 3.5L10.5 8L6 12.5"></path></svg>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="padding: 28px 64px 76px 64px; overflow: hidden">
+    <div style="display: flex; gap: 20px; width: 1700px">
+      <sc-for list="{{projects}}" as="p" hint-placeholder-count="4">
+        <div style="width: 400px; flex-shrink: 0; display: flex; flex-direction: column; gap: 16px">
+          <div class="t-ph" style="height: 290px; border-radius: 20px; position: relative">
+            <div style="{{p.pill}}">{{p.status}}</div>
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 10px">
+            <div class="t-serif" style="font-size: 27px; letter-spacing: -0.01em">{{p.name}}</div>
+            <div class="t-mono" style="font-size: 13px; color: oklch(0.48 0.010 75)">{{p.ort}} · {{p.units}} Wohnungen · Bezug {{p.bezug}}</div>
+            <div style="display: flex; align-items: center; gap: 12px; margin-top: 4px">
+              <div style="flex-grow: 1; height: 4px; background: oklch(0.90 0.006 95); border-radius: 999px; overflow: hidden">
+                <div style="height: 4px; width: {{p.pct}}; background: oklch(0.52 0.12 160)"></div>
+              </div>
+              <div class="t-mono" style="font-size: 12px; color: oklch(0.42 0.09 160)">{{p.pct}}</div>
+            </div>
+          </div>
         </div>
       </sc-for>
     </div>
-    <div style="margin-top: 32px; font-size: 14px; color: oklch(0.68 0.01 85)">Beispieldaten — im Betrieb kommen diese Zeilen aus dem Feed der Bewirtschaftungssoftware.</div>
   </div>
 
-  <div style="display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 24px; padding: 88px 72px">
-    <div style="grid-column: span 4">
-      <h2 style="font-family: 'Instrument Serif', Georgia, serif; font-weight: 400; font-size: 44px; margin: 0; line-height: 1.05">Bewirtschaftung, die man nicht spürt</h2>
+  <div style="padding: 0 64px 76px 64px">
+    <div style="display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 24px">
+      <div>
+        <div class="t-mono" style="font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; color: oklch(0.42 0.09 160); margin-bottom: 12px">02 — Vermietung</div>
+        <h2 class="t-serif" style="font-size: 52px; letter-spacing: -0.015em; margin: 0">Freie Wohnungen</h2>
+      </div>
+      <div class="t-mono" style="font-size: 13px; color: oklch(0.48 0.010 75); text-align: right">Aus unserer eigenen Bewirtschaftung<br>täglich aktualisiert · Beispieldaten</div>
     </div>
-    <div style="grid-column: span 8; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 40px 48px">
-      <div style="display: flex; flex-direction: column; gap: 10px">
-        <div style="font-size: 13px; letter-spacing: 0.12em; text-transform: uppercase; color: oklch(0.55 0.10 45)">Erstvermietung</div>
-        <p style="margin: 0; font-size: 17px; line-height: 1.6; color: oklch(0.40 0.015 70)">[Was ihr konkret übernimmt — Inserate, Besichtigungen, Mietverträge.]</p>
-      </div>
-      <div style="display: flex; flex-direction: column; gap: 10px">
-        <div style="font-size: 13px; letter-spacing: 0.12em; text-transform: uppercase; color: oklch(0.55 0.10 45)">Administration</div>
-        <p style="margin: 0; font-size: 17px; line-height: 1.6; color: oklch(0.40 0.015 70)">[Mietzinsinkasso, Nebenkostenabrechnung, Jahresrechnung.]</p>
-      </div>
-      <div style="display: flex; flex-direction: column; gap: 10px">
-        <div style="font-size: 13px; letter-spacing: 0.12em; text-transform: uppercase; color: oklch(0.55 0.10 45)">Technik & Unterhalt</div>
-        <p style="margin: 0; font-size: 17px; line-height: 1.6; color: oklch(0.40 0.015 70)">[Handwerkernetz, Störungsdienst, Sanierungsplanung.]</p>
-      </div>
-      <div style="display: flex; flex-direction: column; gap: 10px">
-        <div style="font-size: 13px; letter-spacing: 0.12em; text-transform: uppercase; color: oklch(0.55 0.10 45)">Eigentümer-Reporting</div>
-        <p style="margin: 0; font-size: 17px; line-height: 1.6; color: oklch(0.40 0.015 70)">[Kennzahlen, Leerstand, Budget — in welchem Rhythmus.]</p>
-      </div>
+
+    <div style="border-top: 1px solid oklch(0.885 0.006 95)">
+      <sc-for list="{{units}}" as="u" hint-placeholder-count="4">
+        <div class="t-row" style="display: grid; grid-template-columns: 72px 3fr 2.4fr 1.4fr 1.6fr 40px; gap: 20px; align-items: center; padding: 18px 12px; border-bottom: 1px solid oklch(0.885 0.006 95)">
+          <div class="t-ph" style="height: 56px; border-radius: 12px"></div>
+          <div style="display: flex; flex-direction: column; gap: 4px">
+            <div class="t-serif" style="font-size: 24px; letter-spacing: -0.01em">{{u.zimmer}} Zimmer, {{u.ort}}</div>
+            <div class="t-mono" style="font-size: 12px; color: oklch(0.52 0.010 75)">{{u.strasse}}</div>
+          </div>
+          <div style="display: flex; gap: 8px">
+            <span class="t-mono" style="font-size: 12px; border: 1px solid oklch(0.885 0.006 95); border-radius: 999px; padding: 5px 11px; color: oklch(0.38 0.010 75)">{{u.flaeche}}</span>
+            <span class="t-mono" style="font-size: 12px; border: 1px solid oklch(0.885 0.006 95); border-radius: 999px; padding: 5px 11px; color: oklch(0.38 0.010 75)">{{u.etage}}</span>
+          </div>
+          <div style="{{u.statusStyle}}">{{u.status}}</div>
+          <div class="t-serif" style="font-size: 26px; text-align: right">{{u.miete}}</div>
+          <div style="display: flex; justify-content: flex-end">
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="oklch(0.42 0.09 160)" stroke-width="1.7"><path d="M4 9h9M9.5 5l4 4-4 4"></path></svg>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+
+    <div style="display: flex; justify-content: center; margin-top: 32px">
+      <a href="#" style="border: 1px solid oklch(0.19 0.010 75); border-radius: 10px; padding: 14px 28px; font-size: 15px; font-weight: 500; color: oklch(0.19 0.010 75)">Alle [24] Wohnungen und Suchabo</a>
     </div>
   </div>
 
-  <hr class="rn-rule">
-  <div style="display: flex; justify-content: space-between; align-items: flex-start; padding: 56px 72px 72px 72px; font-size: 15px; color: oklch(0.45 0.02 70)">
-    <div style="display: flex; flex-direction: column; gap: 8px">
-      <div style="font-family: 'Instrument Serif', Georgia, serif; font-size: 24px; color: oklch(0.24 0.015 70)">realnorth</div>
-      <div>[Strasse Nr.]<br>[PLZ Ort]</div>
+  <div style="background: oklch(0.19 0.010 75); color: oklch(0.97 0.004 95); padding: 84px 64px">
+    <div style="display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 24px; margin-bottom: 44px; align-items: end">
+      <div style="grid-column: span 7">
+        <div class="t-mono" style="font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; color: oklch(0.72 0.09 160); margin-bottom: 12px">03 — Bewirtschaftung</div>
+        <h2 class="t-serif" style="font-size: 52px; letter-spacing: -0.015em; margin: 0; line-height: 1.03">Ihre Liegenschaft, ohne Ihr Zutun.</h2>
+      </div>
+      <div style="grid-column: span 5; display: flex; justify-content: flex-end">
+        <a href="#" style="background: oklch(0.97 0.004 95); color: oklch(0.19 0.010 75); padding: 15px 26px; border-radius: 10px; font-size: 15px; font-weight: 600">Bewirtschaftung anfragen</a>
+      </div>
     </div>
-    <div style="display: flex; flex-direction: column; gap: 8px">
-      <a href="#">Bauprojekte</a><a href="#">Bewirtschaftung</a><a href="#">Freie Wohnungen</a>
+    <div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px">
+      <sc-for list="{{services}}" as="s" hint-placeholder-count="4">
+        <div style="background: oklch(0.24 0.010 75); border: 1px solid oklch(0.30 0.010 75); border-radius: 18px; padding: 24px; display: flex; flex-direction: column; gap: 12px; min-height: 190px">
+          <div class="t-mono" style="font-size: 12px; color: oklch(0.72 0.09 160)">{{s.num}}</div>
+          <div class="t-serif" style="font-size: 24px; letter-spacing: -0.01em">{{s.title}}</div>
+          <p style="margin: 0; font-size: 15px; line-height: 1.55; color: oklch(0.78 0.008 95)">{{s.text}}</p>
+        </div>
+      </sc-for>
     </div>
-    <div style="display: flex; flex-direction: column; gap: 8px">
-      <a href="#">[Telefon]</a><a href="#">[E-Mail]</a><a href="#">Schadenmeldung</a>
+  </div>
+
+  <div style="padding: 64px 64px 72px 64px">
+    <div style="display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 24px">
+      <div style="grid-column: span 4; display: flex; flex-direction: column; gap: 12px">
+        <div class="t-serif" style="font-size: 26px">realnorth</div>
+        <div class="t-mono" style="font-size: 13px; line-height: 1.7; color: oklch(0.48 0.010 75)">[Strasse Nr.]<br>[PLZ Ort]<br>[Telefon]</div>
+      </div>
+      <div style="grid-column: span 3; display: flex; flex-direction: column; gap: 10px; font-size: 15px">
+        <a href="#">Bauprojekte</a><a href="#">Bewirtschaftung</a><a href="#">Freie Wohnungen</a><a href="#">Über uns</a>
+      </div>
+      <div style="grid-column: span 3; display: flex; flex-direction: column; gap: 10px; font-size: 15px">
+        <a href="#">Schadenmeldung</a><a href="#">Wohnung anmelden</a><a href="#">Suchabo</a>
+      </div>
+      <div style="grid-column: span 2; display: flex; flex-direction: column; gap: 10px" class="t-mono">
+        <a href="#" style="font-size: 13px">Impressum</a><a href="#" style="font-size: 13px">Datenschutz</a>
+      </div>
     </div>
   </div>
 
@@ -147,12 +199,43 @@
 <script data-dc-script>
 class Component extends DCLogic {
   renderVals() {
+    const cellBase = 'padding: 26px 64px; display: flex; flex-direction: column;';
+    const line = ' border-right: 1px solid oklch(0.885 0.006 95);';
+    const pillBase = 'position: absolute; top: 14px; left: 14px; font-size: 12px; font-weight: 600; padding: 6px 12px; border-radius: 999px; font-family: "IBM Plex Mono", monospace;';
+    const statusBase = 'font-size: 12px; font-weight: 600; padding: 6px 12px; border-radius: 999px; justify-self: start; font-family: "IBM Plex Mono", monospace;';
+
     return {
+      stats: [
+        { value: "[12]",    label: 'Projekte realisiert', cell: cellBase + line },
+        { value: "[6]",     label: 'im Bau',              cell: cellBase + line },
+        { value: "[1'240]", label: 'Einheiten',           cell: cellBase + line },
+        { value: "[1.4%]",  label: 'Leerstand',           cell: cellBase }
+      ],
+      projects: [
+        { name: '[Projektname]', ort: '[Ort]', units: '[18]', bezug: '[Q2/26]', pct: '62%', status: 'Im Bau',
+          pill: pillBase + ' background: oklch(0.42 0.09 160); color: oklch(0.99 0.005 160);' },
+        { name: '[Projektname]', ort: '[Ort]', units: '[9]',  bezug: '[Q4/25]', pct: '84%', status: 'Ausbau',
+          pill: pillBase + ' background: oklch(0.42 0.09 160); color: oklch(0.99 0.005 160);' },
+        { name: '[Projektname]', ort: '[Ort]', units: '[26]', bezug: '[2027]',  pct: '15%', status: 'In Planung',
+          pill: pillBase + ' background: oklch(0.99 0.004 95); color: oklch(0.28 0.010 75);' },
+        { name: '[Projektname]', ort: '[Ort]', units: '[14]', bezug: '[2024]',  pct: '100%', status: 'Fertig',
+          pill: pillBase + ' background: oklch(0.99 0.004 95); color: oklch(0.28 0.010 75);' }
+      ],
       units: [
-        { name: '3.5 Zimmer, Neubau', ort: 'Baar', zimmer: '3.5', flaeche: '92 m²', miete: "CHF 2'180" },
-        { name: '2.5 Zimmer, Gartensitzplatz', ort: 'Cham', zimmer: '2.5', flaeche: '68 m²', miete: "CHF 1'740" },
-        { name: '4.5 Zimmer, Attika', ort: 'Zug', zimmer: '4.5', flaeche: '128 m²', miete: "CHF 3'450" },
-        { name: '1.5 Zimmer, möbliert', ort: 'Rotkreuz', zimmer: '1.5', flaeche: '44 m²', miete: "CHF 1'290" }
+        { zimmer: '3.5', ort: 'Baar', strasse: '[Strasse 12]', flaeche: '92 m²', etage: '2. OG', miete: "CHF 2'180", status: 'ab 01.11.',
+          statusStyle: statusBase + ' background: oklch(0.94 0.02 160); color: oklch(0.36 0.09 160);' },
+        { zimmer: '2.5', ort: 'Cham', strasse: '[Strasse 4]', flaeche: '68 m²', etage: 'EG', miete: "CHF 1'740", status: 'sofort frei',
+          statusStyle: statusBase + ' background: oklch(0.42 0.09 160); color: oklch(0.99 0.005 160);' },
+        { zimmer: '4.5', ort: 'Zug', strasse: '[Strasse 8]', flaeche: '128 m²', etage: 'Attika', miete: "CHF 3'450", status: 'ab 01.01.',
+          statusStyle: statusBase + ' background: oklch(0.94 0.02 160); color: oklch(0.36 0.09 160);' },
+        { zimmer: '1.5', ort: 'Rotkreuz', strasse: '[Strasse 21]', flaeche: '44 m²', etage: '3. OG', miete: "CHF 1'290", status: 'sofort frei',
+          statusStyle: statusBase + ' background: oklch(0.42 0.09 160); color: oklch(0.99 0.005 160);' }
+      ],
+      services: [
+        { num: '01', title: 'Erstvermietung', text: '[Inserate, Besichtigungen, Mietverträge — was ihr konkret übernimmt.]' },
+        { num: '02', title: 'Administration', text: '[Mietzinsinkasso, Nebenkostenabrechnung, Jahresrechnung.]' },
+        { num: '03', title: 'Technik', text: '[Handwerkernetz, Störungsdienst, Sanierungsplanung.]' },
+        { num: '04', title: 'Reporting', text: '[Kennzahlen, Leerstand, Budget — in welchem Rhythmus.]' }
       ]
     };
   }
