@@ -93,6 +93,7 @@ Plesk -> realnorth.ch -> **Git** -> *Create repository*:
 | Repository name | `realnorth.git` (nur ein Plesk-interner Name) |
 | Deployment mode | zuerst **Manual**, später *Automatic* |
 | Server path | `/httpdocs/realnorth/wordpress/wp-content/plugins/realnorth-custom` |
+| | *Achtung: relativ zum **Abo-Root**, nicht zu `httpdocs`. Und das Verzeichnis vorher anlegen — Plesk erstellt es nicht (siehe Stolpersteine).* |
 | Enable additional deployment actions | leer lassen — braucht Shell-Zugriff, den das Abo nicht hat |
 
 Zum Server-Pfad, weil hier der Schaden entsteht, wenn er falsch ist:
@@ -188,6 +189,24 @@ Manager. Danach die Ursache im Repo suchen.
 
 ## Bekannte Stolpersteine
 
+* **`fatal: Invalid path '…': No such file or directory`** beim Deploy —
+  zwei Ursachen, beide im Feld *Server path*:
+
+      fatal: Invalid path '/var/www/vhosts/realnorth.ch/realnorth':
+      No such file or directory
+
+  1. **Das Feld ist relativ zum Abo-Root**, nicht zu `httpdocs`. Steht dort
+     `realnorth`, landet der Checkout in
+     `/var/www/vhosts/realnorth.ch/realnorth` statt im Plugin-Ordner.
+     Richtig ist der volle Pfad ab Abo-Root, siehe Schritt 3.
+  2. **Plesk legt das Zielverzeichnis nicht an.** Es muss vor dem ersten
+     Deploy im File Manager existieren:
+     `httpdocs/realnorth/wordpress/wp-content/plugins/realnorth-custom`.
+     Ein leerer Ordner dort ist harmlos — WordPress ignoriert ihn, solange
+     keine Plugin-Datei drin liegt.
+
+  Meldet Plesk dagegen «Validierung des Bereitstellungsschlüssels: Fertig»,
+  ist die Verbindung zu GitHub in Ordnung; dann liegt es nur am Pfad.
 * **Weisser Screen nach Deploy** — fast immer ein PHP-Syntaxfehler. Genau
   dagegen ist `bin/php-lint.sh` da; ohne Shell gibt es auf dem Server kein
   `php -l` als Rettung. Achtung: unser Lint läuft auf PHP 8.4, der Server
